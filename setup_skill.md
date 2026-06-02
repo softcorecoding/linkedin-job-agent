@@ -15,7 +15,9 @@ This skill is conversational. Interview the user, then write files. Do not inven
 |---|---|
 | `job_shortlist/profile.md` | `job_shortlist/profile.example.md` |
 | `tailor_cv/experience_bank.md` | `tailor_cv/experience_bank.example.md` |
-| `tailor_cv/sample_structure.json` | already in repo with a fictional persona — edit in place to insert the user's identity + education |
+| `tailor_cv/identity.json` | `tailor_cv/identity.example.json` |
+
+`tailor_cv/sample_structure.json` is a generic, identity-free CV-structure template that stays tracked in the repo. Do not write the user's personal data into it; the user's name, contact, and education live in the git-ignored `tailor_cv/identity.json`.
 
 If a target file already exists, ask the user whether to update it or leave it. Never overwrite real personal data without confirmation.
 
@@ -57,11 +59,13 @@ Note the `job`, `eval`, and `cv` skills also require Codex's built-in browser to
 
 ### 1. Read the templates
 
-Read all three template files first so you understand the exact structure to reproduce:
+Read all template files first so you understand the exact structure to reproduce:
 
 - `job_shortlist/profile.example.md`
 - `tailor_cv/experience_bank.example.md`
-- `tailor_cv/sample_structure.json`
+- `tailor_cv/identity.example.json`
+
+(You may also glance at `tailor_cv/sample_structure.json` to see how identity and education are consumed, but you do not edit it during setup.)
 
 Preserve their structure, headings, and section names. You are replacing the fictional persona's content with the user's, not redesigning the format.
 
@@ -74,15 +78,17 @@ Ask the user for:
 - Email
 - Phone (optional)
 - LinkedIn URL (optional)
+- Languages: each language with proficiency (e.g. `English (Fluent/C1), German (Intermediate/B1)`).
 - Education: for each degree — institution, degree (e.g. MSc/BSc), field/specialization, years, GPA (optional), and optionally relevant coursework or thesis.
 
-Write these into `tailor_cv/sample_structure.json`:
+Create `tailor_cv/identity.json` from `tailor_cv/identity.example.json` and write:
 
 - `candidate.name`
 - `candidate.contact` — a single line: `City, Country | email | phone | linkedin`
-- the Education section `entries` — one entry per degree, following the example's shape.
+- `languages` — a single comma-separated line of languages with proficiency.
+- `education.entries` — one entry per degree, following the example's shape.
 
-Leave every `[BRACKETED_PLACEHOLDER]` that represents dynamic, per-job CV content (profile summary, experience entries, skills) untouched. Those are filled per job by the tailoring skill, not during setup.
+This file is git-ignored and holds the only personal identity data in the project. Do not put any of this into `tailor_cv/sample_structure.json`, which stays a tracked, identity-free template — the tailoring skill reads identity from `identity.json` and merges it into each per-job CV.
 
 ### 3. Build the experience bank
 

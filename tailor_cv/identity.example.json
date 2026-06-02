@@ -1,0 +1,36 @@
+{
+  "candidate": {
+    "name": "John Doe",
+    "contact": "Amsterdam, Netherlands | john.doe.example@example.com | +31 6 12345678 | https://www.linkedin.com/in/john-doe-example/"
+  },
+  "languages": "English (Fluent/C1), Dutch (Intermediate/B1)",
+  "education": {
+    "title": "Education",
+    "entries": [
+      {
+        "heading": "University of Amsterdam - MSc Business Analytics",
+        "meta": "2021 - 2023 | GPA: 8.2/10",
+        "paragraphs": [
+          {
+            "label": "Relevant coursework",
+            "text": "Data Mining, Statistics, SQL and Databases, Business Intelligence, Machine Learning, Data Visualization."
+          },
+          {
+            "label": "Thesis",
+            "text": "Applied predictive modelling to retail demand data to forecast weekly category sales."
+          }
+        ]
+      },
+      {
+        "heading": "University of Amsterdam - BSc Economics and Business Economics",
+        "meta": "2018 - 2021 | GPA: 7.9/10",
+        "paragraphs": [
+          {
+            "label": "Relevant coursework",
+            "text": "Econometrics, Microeconomics, Finance, Marketing, Statistics."
+          }
+        ]
+      }
+    ]
+  }
+}

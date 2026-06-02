@@ -26,7 +26,8 @@ The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpe
 - Your personal data lives in a few **source-of-truth files** that the skills read:
   - `job_shortlist/profile.md` — your target roles, hard exclusions, and save signals.
   - `tailor_cv/experience_bank.md` — your detailed, honest experience, used as evidence for CVs.
-  - `tailor_cv/sample_structure.json` — your name, contact, education, and the CV output structure.
+  - `tailor_cv/identity.json` — your name, contact, languages, and education (fixed personal facts merged into every CV).
+  - `tailor_cv/sample_structure.json` — the identity-free CV output structure (a generic template, not personal data).
 - `tailor_cv/generate_tailored_pdfs.py` renders a tailored CV JSON into a polished, ATS-friendly PDF.
 
 ## Prerequisites
@@ -69,11 +70,11 @@ The `setup` skill interviews you and writes your own files:
 
 - `job_shortlist/profile.md` (from `profile.example.md`)
 - `tailor_cv/experience_bank.md` (from `experience_bank.example.md`)
-- your identity + education into `tailor_cv/sample_structure.json`
+- `tailor_cv/identity.json` (from `identity.example.json`) — your name, contact, languages, and education
 
-These personal files are **git-ignored**, so they stay on your machine and never get committed.
+All three personal files are **git-ignored**, so they stay on your machine and never get committed.
 
-You can edit the example files or fill them in by hand instead — `setup` just makes it conversational. Re-run `setup` anytime to extend your experience bank or update your profile.
+You can copy the example files (`*.example.md`, `identity.example.json`) to their real names and fill them in by hand instead — `setup` just makes it conversational. Re-run `setup` anytime to extend your experience bank or update your profile.
 
 ## Usage
 
@@ -116,11 +117,12 @@ You remain responsible for reviewing everything and for complying with LinkedIn'
     ├── tailoring_skill.md
     ├── generate_tailored_pdfs.py   # JSON → PDF
     ├── requirements.txt
-    ├── sample_structure.json       # CV structure + your identity/education
+    ├── sample_structure.json       # identity-free CV output structure
+    ├── identity.example.json        # → your git-ignored identity.json (name/contact/languages/education)
     └── experience_bank.example.md  # → your git-ignored experience_bank.md
 ```
 
 ## Notes for sharing
 
-- This repo is meant to be used **privately**. Keep it private until you're comfortable with what it contains.
-- Before publishing the template for others, make sure `tailor_cv/sample_structure.json` still holds the sample persona (or placeholders) rather than your real identity, since that one file is tracked by git.
+- All three personal data files (`profile.md`, `experience_bank.md`, `identity.json`) are git-ignored, so your identity, experience, and target roles never get committed. The tracked files hold only the fictional sample persona and generic templates.
+- It's still good practice to skim `git status` before your first commit to confirm nothing personal is staged.

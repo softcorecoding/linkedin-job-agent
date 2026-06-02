@@ -2,7 +2,7 @@
 
 This project is a personal, local-first LinkedIn job-search assistant. It is a set of agent "skills" that Codex (OpenAI's browser-capable coding agent) follows to shortlist jobs, evaluate fit, and tailor CVs. The shared browsing rules in `linkedin.md` target Codex's built-in browser tool.
 
-Before using the job skills, the workspace must be set up and personalized. If `job_shortlist/profile.md` or `tailor_cv/experience_bank.md` do not exist yet (only the `*.example.md` versions are present), this is a fresh checkout: run the setup skill first. Its first step (`### 0. Set up the environment`) installs the runtime dependencies (`reportlab` plus a check for `ripgrep`), so run setup before the other skills even if you only need to install dependencies.
+Before using the job skills, the workspace must be set up and personalized. If `job_shortlist/profile.md`, `tailor_cv/experience_bank.md`, or `tailor_cv/identity.json` do not exist yet (only the `*.example.md` / `identity.example.json` versions are present), this is a fresh checkout: run the setup skill first. Its first step (`### 0. Set up the environment`) installs the runtime dependencies (`reportlab` plus a check for `ripgrep`), so run setup before the other skills even if you only need to install dependencies.
 
 Use `setup_skill.md` when the user says "setup" (or when the required personal data files are missing).
 
@@ -32,9 +32,10 @@ Skills read from these data files. Each skill states which ones it uses; this is
 
 - `job_shortlist/profile.md`: candidate summary, hard exclusions, and shortlist save signals.
 - `tailor_cv/experience_bank.md`: detailed evidence atoms for CV tailoring and fit evaluation.
-- `tailor_cv/sample_structure.json`: output structure for the tailored-CV JSON, including the candidate's name, contact line, and education.
+- `tailor_cv/identity.json`: the candidate's name, contact line, languages, and education, merged verbatim into each tailored CV.
+- `tailor_cv/sample_structure.json`: identity-free output structure for the tailored-CV JSON.
 
-These files contain personal data and are git-ignored. The repository ships `*.example.md` and a sample `sample_structure.json` with a fictional persona so the format is clear. The setup skill turns those into your real, git-ignored data files.
+`profile.md`, `experience_bank.md`, and `identity.json` contain personal data and are git-ignored. The repository ships `*.example.md` / `identity.example.json` with a fictional persona, plus the identity-free `sample_structure.json`, so the format is clear. The setup skill turns the examples into your real, git-ignored data files. Never write personal data into `sample_structure.json`; it stays tracked.
 
 ## Shared Rules
 

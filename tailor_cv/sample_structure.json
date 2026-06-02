@@ -3,8 +3,8 @@
   "role": "[JOB_TITLE]",
   "output_base": "[COMPANY_NAME]_[JOB_TITLE_SLUG]",
   "candidate": {
-    "name": "John Doe",
-    "contact": "Amsterdam, Netherlands | john.doe.example@example.com | +31 6 12345678 | https://www.linkedin.com/in/john-doe-example/"
+    "name": "[CANDIDATE_NAME_FROM_IDENTITY_JSON]",
+    "contact": "[CANDIDATE_CONTACT_FROM_IDENTITY_JSON]"
   },
   "cv": {
     "subtitle": "[TAILORED_TARGET_TITLE]",
@@ -34,30 +34,11 @@
       },
       {
         "title": "Education",
+        "_comment": "Inject the candidate.education entries verbatim from tailor_cv/identity.json here. Keep this Education section in this position; do not author education content in this template.",
         "entries": [
           {
-            "heading": "University of Amsterdam - MSc Business Analytics",
-            "meta": "2021 - 2023 | GPA: 8.2/10",
-            "paragraphs": [
-              {
-                "label": "Relevant coursework",
-                "text": "Data Mining, Statistics, SQL and Databases, Business Intelligence, Machine Learning, Data Visualization."
-              },
-              {
-                "label": "Thesis",
-                "text": "Applied predictive modelling to retail demand data to forecast weekly category sales."
-              }
-            ]
-          },
-          {
-            "heading": "University of Amsterdam - BSc Economics and Business Economics",
-            "meta": "2018 - 2021 | GPA: 7.9/10",
-            "paragraphs": [
-              {
-                "label": "Relevant coursework",
-                "text": "Econometrics, Microeconomics, Finance, Marketing, Statistics."
-              }
-            ]
+            "heading": "[EDUCATION_ENTRY_FROM_IDENTITY_JSON]",
+            "meta": "[DATE_RANGE_FROM_IDENTITY_JSON]"
           }
         ]
       },
@@ -71,7 +52,7 @@
             },
             {
               "label": "Languages",
-              "text": "English (Fluent/C1), Dutch (Intermediate/B1)"
+              "text": "[LANGUAGES_FROM_IDENTITY_JSON]"
             }
           ]
         ]

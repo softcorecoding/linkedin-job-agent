@@ -32,8 +32,9 @@ Avoid wording that is technically true but self-limiting, overly literal, overly
 ## Required Files
 
 - `tailor_cv/experience_bank.md`: primary evidence source for detailed professional and personal-project experience.
+- `tailor_cv/identity.json`: the candidate's fixed personal facts (`candidate.name`, `candidate.contact`, `languages`, and the `education` section). Git-ignored personal data; merged verbatim into every per-job CV.
 - `tailor_cv/generate_tailored_pdfs.py`: reusable PDF generator.
-- `tailor_cv/sample_structure.json`: reference structure for job-specific JSON input.
+- `tailor_cv/sample_structure.json`: identity-free reference structure for job-specific JSON input.
 
 Do not read previously generated application folders or previous tailored CV JSON/PDF files as source material. They can create bias and repeated phrasing. Use only the files listed above plus the live job description.
 
@@ -82,12 +83,16 @@ Do not write the CV yet.
 Read:
 
 - `tailor_cv/experience_bank.md`
+- `tailor_cv/identity.json`
 - `tailor_cv/sample_structure.json`
 
 Use the source hierarchy this way:
 
 - `experience_bank.md` is the primary source for the user's actual experience: what the user did at work, what the user built or contributed to in personal projects, project details, ownership level, tools, outcomes, and ground-truth limits.
+- `identity.json` is the source for fixed personal facts: `candidate.name`, `candidate.contact`, `languages`, and the `education` section. These are copied verbatim into the output, not rewritten per job.
 - `sample_structure.json` is for output formatting only.
+
+If `tailor_cv/identity.json` does not exist, the workspace has not been set up — stop and tell the user to run the `setup` skill first.
 
 ### 4. Search The Experience Bank For Evidence
 
@@ -142,7 +147,13 @@ The CV structure may change per job. Do not force every generated CV to have the
 
 ### 7. Write A Fresh Tailored CV
 
-Create a full tailored CV for the specific job using `sample_structure.json`.
+Create a full tailored CV for the specific job using `sample_structure.json` as the shape.
+
+Fill the identity-free placeholders from `identity.json`:
+
+- `candidate.name` and `candidate.contact` — copy verbatim from `identity.json`.
+- The Skills section's `Languages` line — copy the `languages` string verbatim from `identity.json` into its `text`. Do not invent or alter languages or proficiencies. (The other Skills categories are still tailored per job.)
+- The Education section — replace the template's placeholder Education entry with the `education.entries` from `identity.json`, verbatim. Do not invent, reorder, or reword education content; it is fixed personal data. (Drop the template's `_comment` field from the final JSON.)
 
 The sample JSON is a structural template, not a fixed-length template. Preserve the main CV structure of name/title/contact, profile summary, experience, education, and skills, but dynamically add, remove, reorder, or resize experience entries, subsections, and bullet counts based on the job. Do not treat placeholder counts as required output counts.
 
