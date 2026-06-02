@@ -14,7 +14,6 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate
 
 
 OUT_DIR = Path("tailor_cv")
-CV_FILENAME = "yifei_zhang_cv.pdf"
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 IDENTITY_PATH = SCRIPT_DIR / "identity.json"
@@ -240,8 +239,14 @@ def stage_json_in_output(input_path, data):
     return destination
 
 
+def cv_filename(data):
+    name = data.get("candidate", {}).get("name", "").strip()
+    slug = slugify(name).lower() if name else "candidate"
+    return f"{slug}_cv.pdf"
+
+
 def build_cv(data, styles):
-    path = output_dir(data) / CV_FILENAME
+    path = output_dir(data) / cv_filename(data)
     doc = SimpleDocTemplate(
         str(path),
         pagesize=A4,

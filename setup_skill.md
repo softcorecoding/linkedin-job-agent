@@ -68,7 +68,7 @@ Read all template files first so you understand the exact structure to reproduce
 
 (You may also glance at `tailor_cv/cv_structure.json` to see how identity and education are consumed, but you do not edit it during setup.)
 
-Preserve their structure, headings, and section names. You are replacing the fictional persona's content with the user's, not redesigning the format.
+Preserve their structure. You are replacing the fictional persona's content with the user's, not redesigning the format.
 
 ### 2. Collect identity and education
 
@@ -82,12 +82,7 @@ Ask the user for:
 - Languages: each language with proficiency (e.g. `English (Fluent/C1), German (Intermediate/B1)`).
 - Education: for each degree — institution, degree (e.g. MSc/BSc), field/specialization, years, GPA (optional), and optionally relevant coursework or thesis.
 
-Create `tailor_cv/identity.json` from `tailor_cv/identity.example.json` and write:
-
-- `candidate.name`
-- `candidate.contact` — a single line: `City, Country | email | phone | linkedin`
-- `languages` — a single comma-separated line of languages with proficiency.
-- `education.entries` — one entry per degree, following the example's shape.
+Use the user provided information to create `tailor_cv/identity.json` from the structure example in `tailor_cv/identity.example.json`.
 
 This file is git-ignored and holds the only personal identity data in the project. Do not put any of this into `tailor_cv/cv_structure.json`, which stays a tracked, identity-free template — the tailoring skill reads identity from `identity.json` and merges it into each per-job CV.
 
@@ -95,29 +90,21 @@ This file is git-ignored and holds the only personal identity data in the projec
 
 Build this **before** the profile — the profile's evidence anchors are derived from it.
 
-This is the most important and most detailed file. Interview the user employer by employer, and project by project, to create `tailor_cv/experience_bank.md`. For each role or significant project, capture one or more "Experience Atoms" using the example's atom structure:
+This is the most important and most detailed file. Follow the `experience_bank.example.md` structure, interview the user employer by employer, and project by project, to create `tailor_cv/experience_bank.md`. For each role or significant project, capture one or more "Experience Atoms" using the example's atom structure:
 
-- a heading line: `# Employer: <name> <dates>` then `## Experience Atom: <name>` (or `## Personal Project Atom: <name>`)
-- Project context
-- Situation
-- Stakeholders
-- Personal Contribution
-- Outputs And Outcomes
-- Tools, Platforms, And Methods
-- Evidence Tags
-- **Ground Truth Limits** — what the evidence does NOT support claiming. Always fill this; it is what keeps generated CVs truthful.
-
-Push for specifics: numbers, tools, scope, the user's actual personal contribution vs. the team's, and honest limits. Vague input here produces weak CVs later.
+When details are missing, push for specifics: numbers, tools, scope, the user's actual personal contribution vs. the team's, and honest limits. Vague input here produces weak CVs later.
 
 Work in passes if needed: capture the strongest 2-4 roles first, write the file, then offer to add more atoms.
 
 ### 4. Build the shortlist profile
 
-Now write `job_shortlist/profile.md`, drawing on the experience bank you just built. Mirror the example's three sections:
+Now write `job_shortlist/profile.md`, drawing on the experience bank you just built to make "Candidate Profile Summary" and "Candidate Evidence Anchors" sections. Build "Hard Exclusions" section with the user. Mirror the example's three sections:
 
-- **Candidate Profile Summary** — a few sentences: career stage, target role families, the center of gravity of the roles they want. Ground this in the experience bank.
+- **Candidate Profile Summary** — a few sentences describing the candidate's career stage and evidence-backed role-family fit. **Derive this directly from the experience bank** (project families, role titles, evidence tags, tools, outcomes, and stakeholder context).
 - **Candidate Evidence Anchors** — the themes/keywords that should make a job worth saving. **Derive these directly from the experience bank** (its Evidence Tags, tools, and outcomes), then confirm them with the user. Do not invent anchors the bank does not support.
-- **Hard Exclusions** — layer these on top: companies, seniority ceilings, experience floor, excluded countries, role types, and any other automatic skip rules. Probe for these explicitly; users often forget exclusions until asked.
+- **Hard Exclusions** — ask the user for constraint-based skip rules only: companies user doesn't want to apply to, seniority ceilings or floor, excluded countries or cities or any geographical areas, role types to reject, language constraints, visa/sponsorship constraints, work mode constraints, and any other automatic skip rules. Keep these separate from evidence-derived fit signals.
+
+Important boundary: `Candidate Profile Summary` and `Candidate Evidence Anchors` are evidence-derived. `Hard Exclusions` are user-supplied constraints. Do not ask users to provide target-role preferences as though they were a fourth profile section or an input to evidence anchors.
 
 ### 5. Confirm and finish
 

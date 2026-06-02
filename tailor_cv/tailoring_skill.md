@@ -45,7 +45,7 @@ Save generated application documents inside `tailor_cv/`, with a new folder name
 The files inside should be named:
 
 - `[company_name]_[job_title].json`
-- `yifei_zhang_cv.pdf`
+- `[your_name]_cv.pdf` — the generator names this automatically by slugifying `candidate.name` from `identity.json` (e.g. `john_doe_cv.pdf`); you do not set it.
 
 ## Core Workflow
 
@@ -198,13 +198,13 @@ Run the reusable generator only. Do not create a new rendering script for each j
 The generator depends on `reportlab`. If it is not installed (an `ImportError` for `reportlab` when running the generator), install it once into the same interpreter:
 
 ```bash
-/Users/yifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m pip install reportlab
+python3 -m pip install reportlab
 ```
 
 Then run the generator:
 
 ```bash
-/Users/yifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 tailor_cv/generate_tailored_pdfs.py tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
+python3 tailor_cv/generate_tailored_pdfs.py tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
 ```
 
 PDFs must be clean, professional, readable, ATS-friendly, human-friendly, and submission-ready.

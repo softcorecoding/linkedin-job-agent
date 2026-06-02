@@ -24,7 +24,6 @@ To read or verify page content (titles, company, description, button labels, pag
 Stop immediately if:
 
 - LinkedIn shows HTTP 429, rate limiting, temporary restriction, login/security challenge, CAPTCHA, or suspicious activity warnings
-- item details repeatedly fail to load
 - the browser leaves LinkedIn job pages and cannot safely return
 - the UI changes in a way that makes the next action unsafe
 - a click may trigger a final or unsafe action (apply, message, connect, submit, accept legal terms, alter profile/account settings) beyond the current skill's intended scope

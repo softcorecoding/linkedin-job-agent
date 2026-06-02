@@ -43,10 +43,9 @@ Do not expose the full internal evidence map. Use it to make the decision.
 - `2`: Weak fit. Some superficial overlap exists, but core requirements are unsupported, too senior, too technical, or not aligned enough.
 - `1`: Not worth applying. Hard exclusion, clear non-sponsorship, wrong role family, non-English job description, severe evidence gap, or obvious mismatch.
 
-Penalties and hard removals:
+Penalties and removals:
 
-- Clear no visa sponsorship, "must already have work authorization", or "candidate must be located in-country" when incompatible with the user's situation: unsave directly.
-- Employee count below 200, if visible on the job post itself: subtract 1 point.
+- Fall into one of the hard exclusions in `profile.md`
 - Reposted job, if visible: subtract 1 point.
 - Do not use company pages to infer employee count, sponsorship, or fit. You should be able to gather those information from the job post page itself.
 

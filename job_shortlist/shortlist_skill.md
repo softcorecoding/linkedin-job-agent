@@ -41,6 +41,17 @@ Shortlist-specific note:
 
 - Click visible cards from the left-side results list; do not repeatedly edit URLs with `currentJobId`.
 
+## Save Precondition
+
+Never save a job from title, card metadata, top metadata, company, or location alone.
+
+A job may be saved only after the actual job description has been opened and read enough to verify:
+
+- no hard exclusion appears in the description
+- the role has a real connection to one or more Candidate Evidence Anchors
+
+If the description cannot be loaded, is hidden, repeats only top metadata, or the browser cannot distinguish the job description from surrounding LinkedIn chrome, mark the job `uncertain` and continue. If this happens repeatedly on the same page or across multiple jobs, stop and report a repeated detail-loading failure.
+
 ## Review Tracker
 
 Keep a compact internal tracker so loaded cards are not missed or reviewed twice.
@@ -53,6 +64,9 @@ Track only:
 - company
 - location/work mode if visible
 - status
+- description_read: yes/no
+- save_signal_seen_in_description: yes/no
+- hard_exclusion_checked_in_description: yes/no
 
 Use job ID for de-duplication. If no ID is available, use title + company + location. Mark duplicates as `duplicate` and do not open them again.
 
