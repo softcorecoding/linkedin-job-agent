@@ -40,12 +40,10 @@ Do not read previously generated application folders or previous tailored CV JSO
 
 ## Outputs
 
-Save generated application documents inside `tailor_cv/`, with a new folder named `[company_name]_[job_title]`.
+The generator writes all application documents into `tailor_cv/[slug]/`, a folder it creates from the JSON's `output_base` (a `[company_name]_[job_title]` slug). You do not create this folder — you only write the tailoring JSON (Step 7). Inside, the generator produces:
 
-The files inside should be named:
-
-- `[company_name]_[job_title].json`
-- `[your_name]_cv.pdf` — the generator names this automatically by slugifying `candidate.name` from `identity.json` (e.g. `john_doe_cv.pdf`); you do not set it.
+- `[slug].json` — a staged copy of your tailoring JSON
+- `[your_name]_cv.pdf` — named automatically by slugifying `candidate.name` from `identity.json` (e.g. `john_doe_cv.pdf`); you do not set it.
 
 ## Core Workflow
 
@@ -164,6 +162,10 @@ Rules for dynamic synthesis:
 - Avoid evaluative fit-language in all employer-facing CV content. Banned examples include "strong fit", "ideal candidate", "perfect match", "uniquely positioned", "good fit", "great fit", "excellent fit", "well suited", and "best suited".
 - Do not describe the candidate's suitability directly. Instead, describe the candidate's actual experience, responsibilities, tools, outcomes, and transferable evidence.
 
+Write this tailored CV to a single working JSON file before auditing it — for example `/tmp/[slug].json`, where `[slug]` is a `[company_name]_[job_title]` slug using only letters, digits, and underscores. Set the JSON's `output_base` field to that same `[slug]`.
+
+Do not create any folder under `tailor_cv/` yourself. The generator (Step 9) is what creates the output folder: it reads `output_base`, makes `tailor_cv/[slug]/`, copies this JSON into it, and writes the PDF there. The Step 8 audit runs against the working JSON file you just wrote.
+
 ### 8. Claim And Originality Audit
 
 Before generating PDFs, audit the tailored CV.
@@ -180,7 +182,7 @@ Check:
 - no internal suitability-rating language or evaluative fit-language appears anywhere in the JSON. Search explicitly for banned phrases before generating the PDF:
 
 ```bash
-rg -i "strong fit|ideal candidate|perfect match|uniquely positioned|good fit|great fit|excellent fit|well suited|best suited" tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
+rg -i "strong fit|ideal candidate|perfect match|uniquely positioned|good fit|great fit|excellent fit|well suited|best suited" /tmp/[slug].json
 ```
 
 The command must return no matches. If it finds anything, revise the JSON and repeat the search before generating the PDF.
@@ -189,11 +191,7 @@ Fail closed: if any check fails, revise before generating PDFs.
 
 ### 9. Generate PDFs
 
-Create a new job-specific folder in `tailor_cv/` named `[company_name]_[job_title]`.
-
-Create the job-specific JSON file inside that job-specific folder using the structure from `cv_structure.json`.
-
-Run the reusable generator only. Do not create a new rendering script for each job.
+Run the reusable generator on the working JSON file from Step 7. Do not create the output folder yourself and do not write a new rendering script per job — the generator creates `tailor_cv/[slug]/` from `output_base`, copies the JSON into it, and writes the PDF there, printing both final paths when it finishes.
 
 The generator depends on `reportlab`. If it is not installed (an `ImportError` for `reportlab` when running the generator), install it once into the same interpreter:
 
@@ -204,7 +202,7 @@ python3 -m pip install reportlab
 Then run the generator:
 
 ```bash
-python3 tailor_cv/generate_tailored_pdfs.py tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
+python3 tailor_cv/generate_tailored_pdfs.py /tmp/[slug].json
 ```
 
 PDFs must be clean, professional, readable, ATS-friendly, human-friendly, and submission-ready.
