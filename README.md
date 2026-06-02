@@ -1,0 +1,112 @@
+# LinkedIn Job Agent
+
+A local-first, human-in-the-loop assistant for job hunting on LinkedIn. It's a set of **agent skills** — Markdown instruction files that a browser-capable coding agent (such as [Codex](https://openai.com/codex/) or [Claude Code](https://www.anthropic.com/claude-code)) reads and follows to help you search, evaluate, and apply for jobs more efficiently.
+
+There is no app to install and no LinkedIn API. The agent drives a visible browser, slowly and carefully, the way you would. You stay in control: it never submits applications or takes unsafe actions on your behalf.
+
+## What it does
+
+The agent has three skills, each triggered by a keyword plus a LinkedIn URL:
+
+| Say | …followed by | What happens |
+|---|---|---|
+| **`job`** | a LinkedIn job-search results URL | First-pass **shortlisting**: scans every result page, skips your hard exclusions, and saves plausibly relevant jobs for later. |
+| **`eval`** | your LinkedIn saved-jobs URL | **Fit evaluation**: re-reads each saved job, scores it 1-5 against your real experience, and unsaves the weak ones. |
+| **`cv`** | a specific LinkedIn job URL | **CV tailoring**: writes a fresh, evidence-based CV for that role and generates a clean PDF. |
+
+A fourth skill, **`setup`**, personalizes the workspace for you the first time (see below).
+
+The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpens it → `cv` invests effort only in the roles worth it.
+
+## How it works
+
+- `AGENTS.md` is the router. Your coding agent reads it and dispatches to the right skill based on your keyword.
+- Each skill is a `*_skill.md` file with detailed, safety-conscious instructions.
+- `linkedin.md` holds shared browsing rules (slow human-like cadence, pagination, stop conditions, never trigger unsafe actions).
+- Your personal data lives in a few **source-of-truth files** that the skills read:
+  - `job_shortlist/profile.md` — your target roles, hard exclusions, and save signals.
+  - `tailor_cv/experience_bank.md` — your detailed, honest experience, used as evidence for CVs.
+  - `tailor_cv/sample_structure.json` — your name, contact, education, and the CV output structure.
+- `tailor_cv/generate_tailored_pdfs.py` renders a tailored CV JSON into a polished, ATS-friendly PDF.
+
+## Setup
+
+### 1. Get the files into your agent
+
+Clone or download this repo, then open the folder with your coding agent (Codex, Claude Code, etc.). The agent should pick up `AGENTS.md` automatically.
+
+### 2. Install the PDF dependency
+
+The CV generator needs `reportlab`:
+
+```bash
+python3 -m pip install -r tailor_cv/requirements.txt
+```
+
+### 3. Personalize the workspace
+
+This repo ships with a **fictional sample persona ("Alex Rivera")** so you can see the expected format. Replace it with your own data by telling your agent:
+
+```
+setup
+```
+
+The `setup` skill interviews you and writes your own files:
+
+- `job_shortlist/profile.md` (from `profile.example.md`)
+- `tailor_cv/experience_bank.md` (from `experience_bank.example.md`)
+- your identity + education into `tailor_cv/sample_structure.json`
+
+These personal files are **git-ignored**, so they stay on your machine and never get committed.
+
+You can edit the example files or fill them in by hand instead — `setup` just makes it conversational. Re-run `setup` anytime to extend your experience bank or update your profile.
+
+## Usage
+
+Once personalized, just talk to your agent with a keyword and a URL:
+
+```
+job   https://www.linkedin.com/jobs/search/?keywords=data%20analyst&...
+eval  https://www.linkedin.com/my-items/saved-jobs/
+cv    https://www.linkedin.com/jobs/view/1234567890/
+```
+
+Tailored CVs are written to `tailor_cv/<Company>_<Role>/` as a JSON + a PDF named from your name (e.g. `alex_rivera_cv.pdf`). These output folders are git-ignored.
+
+## Safety model
+
+This assistant is deliberately conservative:
+
+- The browser stays **visible** to you the whole time.
+- It uses a **slow, human-like cadence** — no scraping loops, no bulk tab opening, no rapid job-ID navigation.
+- It **stops immediately** on rate limits, CAPTCHAs, login/security challenges, or any unsafe UI state.
+- The `cv` skill respects **ground-truth limits** in your experience bank, so it tailors aggressively but does not fabricate claims.
+- It will **never** submit an application, send a message, connect with a recruiter, change your profile, or click any final/unsafe action.
+
+You remain responsible for reviewing everything and for complying with LinkedIn's Terms of Service.
+
+## Repository layout
+
+```
+.
+├── AGENTS.md                       # router: maps keywords to skills
+├── README.md
+├── linkedin.md                     # shared LinkedIn browsing rules
+├── setup_skill.md                  # one-time personalization
+├── job_shortlist/
+│   ├── shortlist_skill.md
+│   └── profile.example.md          # → your git-ignored profile.md
+├── fit_evaluation/
+│   └── fit_evaluation_skill.md
+└── tailor_cv/
+    ├── tailoring_skill.md
+    ├── generate_tailored_pdfs.py   # JSON → PDF
+    ├── requirements.txt
+    ├── sample_structure.json       # CV structure + your identity/education
+    └── experience_bank.example.md  # → your git-ignored experience_bank.md
+```
+
+## Notes for sharing
+
+- This repo is meant to be used **privately**. Keep it private until you're comfortable with what it contains.
+- Before publishing the template for others, make sure `tailor_cv/sample_structure.json` still holds the sample persona (or placeholders) rather than your real identity, since that one file is tracked by git.

@@ -1,0 +1,14 @@
+# Personal source-of-truth data (created by the setup skill from the *.example files)
+job_shortlist/profile.md
+tailor_cv/experience_bank.md
+
+# Generated application artifacts: per-job folders and CV PDFs
+tailor_cv/*/
+*.pdf
+
+# OS / tooling
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+venv/

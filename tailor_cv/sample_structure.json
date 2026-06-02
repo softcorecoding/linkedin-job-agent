@@ -1,0 +1,81 @@
+{
+  "company": "[COMPANY_NAME]",
+  "role": "[JOB_TITLE]",
+  "output_base": "[COMPANY_NAME]_[JOB_TITLE_SLUG]",
+  "candidate": {
+    "name": "Alex Rivera",
+    "contact": "Amsterdam, Netherlands | alex.rivera.example@example.com | +31 6 12345678 | https://www.linkedin.com/in/alex-rivera-example/"
+  },
+  "cv": {
+    "subtitle": "[TAILORED_TARGET_TITLE]",
+    "sections": [
+      {
+        "title": "Profile Summary",
+        "paragraphs": [
+          "[FRESH_ROLE_SPECIFIC_PROFILE_SUMMARY_SYNTHESIZED_FROM_JOB_REQUIREMENTS_AND_EXPERIENCE_BANK]"
+        ]
+      },
+      {
+        "title": "Experience",
+        "entries": [
+          {
+            "heading": "[EMPLOYER_OR_PROJECT_NAME] - [TAILORED_ROLE_OR_EXPERIENCE_LABEL]",
+            "meta": "[DATE_RANGE] | [LOCATION_OR_CONTEXT]",
+            "subsections": [
+              {
+                "heading": "[ROLE_SPECIFIC_EXPERIENCE_THEME]",
+                "bullets": [
+                  "[FRESH_SYNTHESIZED_BULLET_BASED_ON_RELEVANT_EXPERIENCE_BANK_EVIDENCE]"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Education",
+        "entries": [
+          {
+            "heading": "University of Amsterdam - MSc Business Analytics",
+            "meta": "2021 - 2023 | GPA: 8.2/10",
+            "paragraphs": [
+              {
+                "label": "Relevant coursework",
+                "text": "Data Mining, Statistics, SQL and Databases, Business Intelligence, Machine Learning, Data Visualization."
+              },
+              {
+                "label": "Thesis",
+                "text": "Applied predictive modelling to retail demand data to forecast weekly category sales."
+              }
+            ]
+          },
+          {
+            "heading": "University of Amsterdam - BSc Economics and Business Economics",
+            "meta": "2018 - 2021 | GPA: 7.9/10",
+            "paragraphs": [
+              {
+                "label": "Relevant coursework",
+                "text": "Econometrics, Microeconomics, Finance, Marketing, Statistics."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Skills",
+        "paragraphs": [
+          [
+            {
+              "label": "[ROLE_RELEVANT_SKILL_CATEGORY]",
+              "text": "[COMMA_SEPARATED_SKILLS_SELECTED_FOR_THIS_JOB]"
+            },
+            {
+              "label": "Languages",
+              "text": "English (Fluent/C1), Dutch (Intermediate/B1)"
+            }
+          ]
+        ]
+      }
+    ]
+  }
+}
