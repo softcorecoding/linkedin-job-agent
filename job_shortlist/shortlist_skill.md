@@ -50,7 +50,7 @@ A job may be saved only after the actual job description has been opened and rea
 - no hard exclusion appears in the description
 - the role has a real connection to one or more Candidate Evidence Anchors
 
-If the description cannot be loaded, is hidden, repeats only top metadata, or the browser cannot distinguish the job description from surrounding LinkedIn chrome, mark the job `uncertain` and continue. If this happens repeatedly on the same page or across multiple jobs, stop and report a repeated detail-loading failure.
+If the description cannot be loaded, is hidden, repeats only top metadata, or the browser cannot distinguish the job description from surrounding LinkedIn chrome, mark the job `uncertain` and continue.
 
 ## Review Tracker
 
