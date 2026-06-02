@@ -39,10 +39,11 @@ Before personalizing, make sure the tools the skills depend on are installed. Do
    python3 -m pip install -r tailor_cv/requirements.txt
    ```
 
-   If pip refuses on an externally-managed Python (PEP 668), create and activate a virtualenv first, then re-run the install:
+   If pip refuses on an externally-managed Python (PEP 668), create and activate a virtualenv, then re-run the install inside it:
 
    ```bash
    python3 -m venv .venv && source .venv/bin/activate
+   python3 -m pip install -r tailor_cv/requirements.txt
    ```
 
    (`.venv/` is git-ignored.)

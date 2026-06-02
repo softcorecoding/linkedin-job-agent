@@ -173,9 +173,11 @@ Rules for dynamic synthesis:
 - Avoid evaluative fit-language in all employer-facing CV content. Banned examples include "strong fit", "ideal candidate", "perfect match", "uniquely positioned", "good fit", "great fit", "excellent fit", "well suited", and "best suited".
 - Do not describe the candidate's suitability directly. Instead, describe the candidate's actual experience, responsibilities, tools, outcomes, and transferable evidence.
 
+When the CV content is complete, write it to disk so the audit can run against the real file: create the output folder `tailor_cv/[company_name]_[job_title]/` and save the assembled JSON as `tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json`. The audit (Step 8) and the generator (Step 9) both read this exact file.
+
 ### 8. Claim And Originality Audit
 
-Before generating PDFs, audit the tailored CV.
+Audit the tailored CV JSON written in Step 7, before generating the PDF.
 
 Check:
 
@@ -192,15 +194,13 @@ Check:
 rg -i "strong fit|ideal candidate|perfect match|uniquely positioned|good fit|great fit|excellent fit|well suited|best suited" tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
 ```
 
-The command must return no matches. If it finds anything, revise the JSON and repeat the search before generating the PDF.
+A pass means the command ran against the existing JSON file and printed no matching lines (`rg` exits 1 with no output). A "no such file" error is NOT a pass — it means the JSON was not written in Step 7; write it first and re-run. If `rg` prints any matching line, revise the JSON and repeat the search before generating the PDF.
 
-Fail closed: if any check fails, revise before generating PDFs.
+Fail closed: if any check fails, revise before generating the PDF.
 
-### 9. Generate PDFs
+### 9. Generate The PDF
 
-Create a new job-specific folder in `tailor_cv/` named `[company_name]_[job_title]`.
-
-Create the job-specific JSON file inside that folder using the structure from `sample_structure.json`.
+The job-specific folder and JSON were created in Step 7 and verified in Step 8. Now render the PDF from that JSON.
 
 Run the reusable generator only. Do not create a new rendering script for each job.
 

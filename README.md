@@ -50,7 +50,7 @@ Clone or download this repo, then open the folder with Codex. The agent should p
 
 ### 2. Install the PDF dependency
 
-The CV generator needs `reportlab` (the only third-party Python package):
+The `setup` skill (step 3) installs this for you on its first run, so you can normally skip this step. To install manually instead, the CV generator needs `reportlab` (the only third-party Python package):
 
 ```bash
 python3 -m pip install -r tailor_cv/requirements.txt
