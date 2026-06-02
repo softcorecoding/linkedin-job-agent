@@ -27,7 +27,7 @@ The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpe
   - `job_shortlist/profile.md` — your target roles, hard exclusions, and save signals.
   - `tailor_cv/experience_bank.md` — your detailed, honest experience, used as evidence for CVs.
   - `tailor_cv/identity.json` — your name, contact, languages, and education (fixed personal facts merged into every CV).
-  - `tailor_cv/sample_structure.json` — the identity-free CV output structure (a generic template, not personal data).
+  - `tailor_cv/cv_structure.json` — the identity-free CV output structure (a generic template, not personal data).
 - `tailor_cv/generate_tailored_pdfs.py` renders a tailored CV JSON into a polished, ATS-friendly PDF.
 
 ## Prerequisites
@@ -117,7 +117,7 @@ You remain responsible for reviewing everything and for complying with LinkedIn'
     ├── tailoring_skill.md
     ├── generate_tailored_pdfs.py   # JSON → PDF
     ├── requirements.txt
-    ├── sample_structure.json       # identity-free CV output structure
+    ├── cv_structure.json       # identity-free CV output structure
     ├── identity.example.json        # → your git-ignored identity.json (name/contact/languages/education)
     └── experience_bank.example.md  # → your git-ignored experience_bank.md
 ```

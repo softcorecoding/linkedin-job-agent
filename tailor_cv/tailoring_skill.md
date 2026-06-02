@@ -32,9 +32,9 @@ Avoid wording that is technically true but self-limiting, overly literal, overly
 ## Required Files
 
 - `tailor_cv/experience_bank.md`: primary evidence source for detailed professional and personal-project experience.
-- `tailor_cv/identity.json`: the candidate's fixed personal facts (`candidate.name`, `candidate.contact`, `languages`, and the `education` section). Git-ignored personal data; merged verbatim into every per-job CV.
 - `tailor_cv/generate_tailored_pdfs.py`: reusable PDF generator.
-- `tailor_cv/sample_structure.json`: identity-free reference structure for job-specific JSON input.
+- `tailor_cv/cv_structure.json`: reference structure for job-specific JSON input.
+- `tailor_cv/identity.json`: hardcoded source of truth for candidate identity (name/contact), education, and languages. The generator merges these in automatically — never write or edit them in the per-job JSON.
 
 Do not read previously generated application folders or previous tailored CV JSON/PDF files as source material. They can create bias and repeated phrasing. Use only the files listed above plus the live job description.
 
@@ -45,7 +45,7 @@ Save generated application documents inside `tailor_cv/`, with a new folder name
 The files inside should be named:
 
 - `[company_name]_[job_title].json`
-- `[candidate_name]_cv.pdf` (the generator derives this from the `candidate.name` field in the JSON, e.g. `john_doe_cv.pdf`)
+- `yifei_zhang_cv.pdf`
 
 ## Core Workflow
 
@@ -83,16 +83,13 @@ Do not write the CV yet.
 Read:
 
 - `tailor_cv/experience_bank.md`
-- `tailor_cv/identity.json`
-- `tailor_cv/sample_structure.json`
+- `tailor_cv/cv_structure.json`
 
 Use the source hierarchy this way:
 
 - `experience_bank.md` is the primary source for the user's actual experience: what the user did at work, what the user built or contributed to in personal projects, project details, ownership level, tools, outcomes, and ground-truth limits.
-- `identity.json` is the source for fixed personal facts: `candidate.name`, `candidate.contact`, `languages`, and the `education` section. These are copied verbatim into the output, not rewritten per job.
-- `sample_structure.json` is for output formatting only.
-
-If `tailor_cv/identity.json` does not exist, the workspace has not been set up — stop and tell the user to run the `setup` skill first.
+- `cv_structure.json` is for output formatting only.
+- `identity.json` holds the candidate's hardcoded identity, education, and languages. In `cv_structure.json` these appear as `[INJECTED_FROM_IDENTITY_JSON]` placeholders (the `candidate` block, the Education section, and the `Languages` skills line) so you can see where they sit in the final CV. Leave those placeholders untouched — the generator overwrites them from `identity.json` at render time. Do not fill, tailor, or invent values for them.
 
 ### 4. Search The Experience Bank For Evidence
 
@@ -147,15 +144,9 @@ The CV structure may change per job. Do not force every generated CV to have the
 
 ### 7. Write A Fresh Tailored CV
 
-Create a full tailored CV for the specific job using `sample_structure.json` as the shape.
+Create a full tailored CV for the specific job using `cv_structure.json`.
 
-Fill the identity-free placeholders from `identity.json`:
-
-- `candidate.name` and `candidate.contact` — copy verbatim from `identity.json`.
-- The Skills section's `Languages` line — copy the `languages` string verbatim from `identity.json` into its `text`. Do not invent or alter languages or proficiencies. (The other Skills categories are still tailored per job.)
-- The Education section — replace the template's placeholder Education entry with the `education.entries` from `identity.json`, verbatim. Do not invent, reorder, or reword education content; it is fixed personal data. (Drop the template's `_comment` field from the final JSON.)
-
-The sample JSON is a structural template, not a fixed-length template. Preserve the main CV structure of name/title/contact, profile summary, experience, education, and skills, but dynamically add, remove, reorder, or resize experience entries, subsections, and bullet counts based on the job. Do not treat placeholder counts as required output counts.
+The structure JSON is a structural template, not a fixed-length template. You write the tailored parts only: subtitle, profile summary, experience, and the role-relevant skill categories. The name/contact, education, and `Languages` line stay as their `[INJECTED_FROM_IDENTITY_JSON]` placeholders — they are merged in from `identity.json` at render time, so do not write or alter them. Dynamically add, remove, reorder, or resize experience entries, subsections, and bullet counts based on the job. Do not treat placeholder counts as required output counts.
 
 All projects/experiences under the same employer should appear as one employer entry with multiple themed subsections.
 
@@ -173,11 +164,9 @@ Rules for dynamic synthesis:
 - Avoid evaluative fit-language in all employer-facing CV content. Banned examples include "strong fit", "ideal candidate", "perfect match", "uniquely positioned", "good fit", "great fit", "excellent fit", "well suited", and "best suited".
 - Do not describe the candidate's suitability directly. Instead, describe the candidate's actual experience, responsibilities, tools, outcomes, and transferable evidence.
 
-When the CV content is complete, write it to disk so the audit can run against the real file: create the output folder `tailor_cv/[company_name]_[job_title]/` and save the assembled JSON as `tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json`. The audit (Step 8) and the generator (Step 9) both read this exact file.
-
 ### 8. Claim And Originality Audit
 
-Audit the tailored CV JSON written in Step 7, before generating the PDF.
+Before generating PDFs, audit the tailored CV.
 
 Check:
 
@@ -194,28 +183,28 @@ Check:
 rg -i "strong fit|ideal candidate|perfect match|uniquely positioned|good fit|great fit|excellent fit|well suited|best suited" tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
 ```
 
-A pass means the command ran against the existing JSON file and printed no matching lines (`rg` exits 1 with no output). A "no such file" error is NOT a pass — it means the JSON was not written in Step 7; write it first and re-run. If `rg` prints any matching line, revise the JSON and repeat the search before generating the PDF.
+The command must return no matches. If it finds anything, revise the JSON and repeat the search before generating the PDF.
 
-Fail closed: if any check fails, revise before generating the PDF.
+Fail closed: if any check fails, revise before generating PDFs.
 
-### 9. Generate The PDF
+### 9. Generate PDFs
 
-The job-specific folder and JSON were created in Step 7 and verified in Step 8. Now render the PDF from that JSON.
+Create a new job-specific folder in `tailor_cv/` named `[company_name]_[job_title]`.
+
+Create the job-specific JSON file inside that job-specific folder using the structure from `cv_structure.json`.
 
 Run the reusable generator only. Do not create a new rendering script for each job.
 
-The generator depends on `reportlab`. If it is not installed (an `ImportError` for `reportlab` when running the generator), install it once into the Python interpreter you are using:
+The generator depends on `reportlab`. If it is not installed (an `ImportError` for `reportlab` when running the generator), install it once into the same interpreter:
 
 ```bash
-python3 -m pip install reportlab
+/Users/yifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m pip install reportlab
 ```
-
-(Or install everything from `tailor_cv/requirements.txt`.)
 
 Then run the generator:
 
 ```bash
-python3 tailor_cv/generate_tailored_pdfs.py tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
+/Users/yifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 tailor_cv/generate_tailored_pdfs.py tailor_cv/[company_name]_[job_title]/[company_name]_[job_title].json
 ```
 
 PDFs must be clean, professional, readable, ATS-friendly, human-friendly, and submission-ready.

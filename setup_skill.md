@@ -17,7 +17,7 @@ This skill is conversational. Interview the user, then write files. Do not inven
 | `tailor_cv/experience_bank.md` | `tailor_cv/experience_bank.example.md` |
 | `tailor_cv/identity.json` | `tailor_cv/identity.example.json` |
 
-`tailor_cv/sample_structure.json` is a generic, identity-free CV-structure template that stays tracked in the repo. Do not write the user's personal data into it; the user's name, contact, and education live in the git-ignored `tailor_cv/identity.json`.
+`tailor_cv/cv_structure.json` is a generic, identity-free CV-structure template that stays tracked in the repo. Do not write the user's personal data into it; the user's name, contact, and education live in the git-ignored `tailor_cv/identity.json`.
 
 If a target file already exists, ask the user whether to update it or leave it. Never overwrite real personal data without confirmation.
 
@@ -66,7 +66,7 @@ Read all template files first so you understand the exact structure to reproduce
 - `tailor_cv/experience_bank.example.md`
 - `tailor_cv/identity.example.json`
 
-(You may also glance at `tailor_cv/sample_structure.json` to see how identity and education are consumed, but you do not edit it during setup.)
+(You may also glance at `tailor_cv/cv_structure.json` to see how identity and education are consumed, but you do not edit it during setup.)
 
 Preserve their structure, headings, and section names. You are replacing the fictional persona's content with the user's, not redesigning the format.
 
@@ -89,7 +89,7 @@ Create `tailor_cv/identity.json` from `tailor_cv/identity.example.json` and writ
 - `languages` — a single comma-separated line of languages with proficiency.
 - `education.entries` — one entry per degree, following the example's shape.
 
-This file is git-ignored and holds the only personal identity data in the project. Do not put any of this into `tailor_cv/sample_structure.json`, which stays a tracked, identity-free template — the tailoring skill reads identity from `identity.json` and merges it into each per-job CV.
+This file is git-ignored and holds the only personal identity data in the project. Do not put any of this into `tailor_cv/cv_structure.json`, which stays a tracked, identity-free template — the tailoring skill reads identity from `identity.json` and merges it into each per-job CV.
 
 ### 3. Build the experience bank
 

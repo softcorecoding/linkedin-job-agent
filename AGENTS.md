@@ -33,9 +33,9 @@ Skills read from these data files. Each skill states which ones it uses; this is
 - `job_shortlist/profile.md`: candidate summary, hard exclusions, and shortlist save signals.
 - `tailor_cv/experience_bank.md`: detailed evidence atoms for CV tailoring and fit evaluation.
 - `tailor_cv/identity.json`: the candidate's name, contact line, languages, and education, merged verbatim into each tailored CV.
-- `tailor_cv/sample_structure.json`: identity-free output structure for the tailored-CV JSON.
+- `tailor_cv/cv_structure.json`: identity-free output structure for the tailored-CV JSON.
 
-`profile.md`, `experience_bank.md`, and `identity.json` contain personal data and are git-ignored. The repository ships `*.example.md` / `identity.example.json` with a fictional persona, plus the identity-free `sample_structure.json`, so the format is clear. The setup skill turns the examples into your real, git-ignored data files. Never write personal data into `sample_structure.json`; it stays tracked.
+`profile.md`, `experience_bank.md`, and `identity.json` contain personal data and are git-ignored. The repository ships `*.example.md` / `identity.example.json` with a fictional persona, plus the identity-free `cv_structure.json`, so the format is clear. The setup skill turns the examples into your real, git-ignored data files. Never write personal data into `cv_structure.json`; it stays tracked.
 
 ## Shared Rules
 

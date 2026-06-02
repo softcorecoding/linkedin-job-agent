@@ -1,7 +1,6 @@
 import argparse
 import json
 import re
-import shutil
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -14,11 +13,11 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate
 
 
 OUT_DIR = Path("tailor_cv")
+CV_FILENAME = "yifei_zhang_cv.pdf"
 
-
-def cv_filename(data):
-    name_slug = slugify(data["candidate"]["name"]).lower()
-    return f"{name_slug}_cv.pdf"
+SCRIPT_DIR = Path(__file__).resolve().parent
+IDENTITY_PATH = SCRIPT_DIR / "identity.json"
+IDENTITY_EXAMPLE_PATH = SCRIPT_DIR / "identity.example.json"
 
 
 def slugify(value):
@@ -161,6 +160,67 @@ def add_cv_section(story, styles, section):
             add_bullets(story, entry["bullets"], styles)
 
 
+def load_identity():
+    if not IDENTITY_PATH.exists():
+        raise SystemExit(
+            f"Missing {IDENTITY_PATH}.\n"
+            f"Copy {IDENTITY_EXAMPLE_PATH.name} to {IDENTITY_PATH.name} and fill in your "
+            "real candidate details, education, and languages."
+        )
+    return json.loads(IDENTITY_PATH.read_text(encoding="utf-8"))
+
+
+def inject_languages(skills_section, languages):
+    entry = {"label": "Languages", "text": languages}
+    paragraphs = skills_section.setdefault("paragraphs", [])
+    # Skill categories live as a list of label/text dicts in the first paragraph block.
+    if paragraphs and isinstance(paragraphs[0], list):
+        block = paragraphs[0]
+    else:
+        block = []
+        paragraphs.append(block)
+    # Drop any pre-existing Languages line so identity.json stays authoritative.
+    block[:] = [
+        item
+        for item in block
+        if not (isinstance(item, dict) and item.get("label", "").strip().lower() == "languages")
+    ]
+    block.append(entry)
+
+
+def apply_identity(data, identity):
+    """Identity.json is the hardcoded source of truth for candidate, education, and languages.
+
+    The per-job structure only carries tailored content (subtitle, profile, experience,
+    skill categories); these factual fields are merged in here so they cannot drift.
+    """
+    data["candidate"] = identity["candidate"]
+
+    sections = data["cv"]["sections"]
+
+    education = identity["education"]
+    education_section = {
+        "title": education.get("title", "Education"),
+        "entries": education["entries"],
+    }
+
+    # Drop any Education section the structure may carry; identity owns it.
+    sections[:] = [s for s in sections if s.get("title", "").strip().lower() != "education"]
+
+    skills_index = next(
+        (i for i, s in enumerate(sections) if s.get("title", "").strip().lower() == "skills"),
+        None,
+    )
+    languages = identity.get("languages")
+    if skills_index is not None:
+        if languages:
+            inject_languages(sections[skills_index], languages)
+        # Standard CV order: Education sits just before Skills.
+        sections.insert(skills_index, education_section)
+    else:
+        sections.append(education_section)
+
+
 def application_slug(data):
     if data.get("output_base"):
         return slugify(data["output_base"])
@@ -175,12 +235,12 @@ def stage_json_in_output(input_path, data):
     destination = output_dir(data) / f"{application_slug(data)}.json"
     source = input_path.resolve()
     if source != destination.resolve():
-        shutil.copy2(input_path, destination)
+        input_path.replace(destination)
     return destination
 
 
 def build_cv(data, styles):
-    path = output_dir(data) / cv_filename(data)
+    path = output_dir(data) / CV_FILENAME
     doc = SimpleDocTemplate(
         str(path),
         pagesize=A4,
@@ -204,6 +264,7 @@ def main():
 
     input_path = Path(args.input)
     data = json.loads(input_path.read_text(encoding="utf-8"))
+    apply_identity(data, load_identity())
     output_dir(data).mkdir(parents=True, exist_ok=True)
     json_path = stage_json_in_output(input_path, data)
     styles = build_styles()

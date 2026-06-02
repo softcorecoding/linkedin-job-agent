@@ -3,8 +3,8 @@
   "role": "[JOB_TITLE]",
   "output_base": "[COMPANY_NAME]_[JOB_TITLE_SLUG]",
   "candidate": {
-    "name": "[CANDIDATE_NAME_FROM_IDENTITY_JSON]",
-    "contact": "[CANDIDATE_CONTACT_FROM_IDENTITY_JSON]"
+    "name": "[INJECTED_FROM_IDENTITY_JSON]",
+    "contact": "[INJECTED_FROM_IDENTITY_JSON]"
   },
   "cv": {
     "subtitle": "[TAILORED_TARGET_TITLE]",
@@ -34,11 +34,16 @@
       },
       {
         "title": "Education",
-        "_comment": "Inject the candidate.education entries verbatim from tailor_cv/identity.json here. Keep this Education section in this position; do not author education content in this template.",
         "entries": [
           {
-            "heading": "[EDUCATION_ENTRY_FROM_IDENTITY_JSON]",
-            "meta": "[DATE_RANGE_FROM_IDENTITY_JSON]"
+            "heading": "[INJECTED_FROM_IDENTITY_JSON]",
+            "meta": "[INJECTED_FROM_IDENTITY_JSON]",
+            "paragraphs": [
+              {
+                "label": "[INJECTED_FROM_IDENTITY_JSON]",
+                "text": "[INJECTED_FROM_IDENTITY_JSON]"
+              }
+            ]
           }
         ]
       },
@@ -52,7 +57,7 @@
             },
             {
               "label": "Languages",
-              "text": "[LANGUAGES_FROM_IDENTITY_JSON]"
+              "text": "[INJECTED_FROM_IDENTITY_JSON]"
             }
           ]
         ]
