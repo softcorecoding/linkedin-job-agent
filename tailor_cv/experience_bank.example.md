@@ -1,6 +1,6 @@
 # Experience Bank
 
-> EXAMPLE FILE — fictional persona "Alex Rivera". Run the `setup` skill to replace
+> EXAMPLE FILE — fictional persona "John Doe". Run the `setup` skill to replace
 > this with your own `experience_bank.md`. Reproduce the atom structure below for
 > each of your real roles and projects.
 

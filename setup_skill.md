@@ -21,6 +21,40 @@ If a target file already exists, ask the user whether to update it or leave it. 
 
 ## Workflow
 
+### 0. Set up the environment (first run)
+
+Before personalizing, make sure the tools the skills depend on are installed. Do this once.
+
+1. Confirm Python 3.8+ is available:
+
+   ```bash
+   python3 --version
+   ```
+
+2. Install the Python dependency for the CV generator:
+
+   ```bash
+   python3 -m pip install -r tailor_cv/requirements.txt
+   ```
+
+   If pip refuses on an externally-managed Python (PEP 668), create and activate a virtualenv first, then re-run the install:
+
+   ```bash
+   python3 -m venv .venv && source .venv/bin/activate
+   ```
+
+   (`.venv/` is git-ignored.)
+
+3. Confirm `ripgrep` is available — the `cv` skill's banned-phrase audit uses it:
+
+   ```bash
+   rg --version
+   ```
+
+   If it is missing, install it (`brew install ripgrep` on macOS, or the system package manager) and tell the user if you cannot.
+
+Note the `job`, `eval`, and `cv` skills also require Codex's built-in browser tool to be enabled, with the user already logged in to LinkedIn in that browser. You cannot install that here; just confirm with the user if browsing later fails.
+
 ### 1. Read the templates
 
 Read all three template files first so you understand the exact structure to reproduce:
@@ -50,15 +84,9 @@ Write these into `tailor_cv/sample_structure.json`:
 
 Leave every `[BRACKETED_PLACEHOLDER]` that represents dynamic, per-job CV content (profile summary, experience entries, skills) untouched. Those are filled per job by the tailoring skill, not during setup.
 
-### 3. Build the shortlist profile
+### 3. Build the experience bank
 
-Interview the user to fill `job_shortlist/profile.md`, mirroring the example's three sections:
-
-- **Candidate Profile Summary** — a few sentences: career stage, target role families, the center of gravity of the roles they want.
-- **Hard Exclusions** — companies, seniority ceilings, experience floor, excluded countries, role types, and any other automatic skip rules. Probe for these explicitly; users often forget exclusions until asked.
-- **Candidate Evidence Anchors** — the themes/keywords that should make a job worth saving. Derive these together with the user from their real experience.
-
-### 4. Build the experience bank
+Build this **before** the profile — the profile's evidence anchors are derived from it.
 
 This is the most important and most detailed file. Interview the user employer by employer, and project by project, to create `tailor_cv/experience_bank.md`. For each role or significant project, capture one or more "Experience Atoms" using the example's atom structure:
 
@@ -75,6 +103,14 @@ This is the most important and most detailed file. Interview the user employer b
 Push for specifics: numbers, tools, scope, the user's actual personal contribution vs. the team's, and honest limits. Vague input here produces weak CVs later.
 
 Work in passes if needed: capture the strongest 2-4 roles first, write the file, then offer to add more atoms.
+
+### 4. Build the shortlist profile
+
+Now write `job_shortlist/profile.md`, drawing on the experience bank you just built. Mirror the example's three sections:
+
+- **Candidate Profile Summary** — a few sentences: career stage, target role families, the center of gravity of the roles they want. Ground this in the experience bank.
+- **Candidate Evidence Anchors** — the themes/keywords that should make a job worth saving. **Derive these directly from the experience bank** (its Evidence Tags, tools, and outcomes), then confirm them with the user. Do not invent anchors the bank does not support.
+- **Hard Exclusions** — layer these on top: companies, seniority ceilings, experience floor, excluded countries, role types, and any other automatic skip rules. Probe for these explicitly; users often forget exclusions until asked.
 
 ### 5. Confirm and finish
 

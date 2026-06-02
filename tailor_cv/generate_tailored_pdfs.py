@@ -1,6 +1,7 @@
 import argparse
 import json
 import re
+import shutil
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -174,7 +175,7 @@ def stage_json_in_output(input_path, data):
     destination = output_dir(data) / f"{application_slug(data)}.json"
     source = input_path.resolve()
     if source != destination.resolve():
-        input_path.replace(destination)
+        shutil.copy2(input_path, destination)
     return destination
 
 

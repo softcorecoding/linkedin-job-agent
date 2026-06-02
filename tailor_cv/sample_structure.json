@@ -3,8 +3,8 @@
   "role": "[JOB_TITLE]",
   "output_base": "[COMPANY_NAME]_[JOB_TITLE_SLUG]",
   "candidate": {
-    "name": "Alex Rivera",
-    "contact": "Amsterdam, Netherlands | alex.rivera.example@example.com | +31 6 12345678 | https://www.linkedin.com/in/alex-rivera-example/"
+    "name": "John Doe",
+    "contact": "Amsterdam, Netherlands | john.doe.example@example.com | +31 6 12345678 | https://www.linkedin.com/in/john-doe-example/"
   },
   "cv": {
     "subtitle": "[TAILORED_TARGET_TITLE]",

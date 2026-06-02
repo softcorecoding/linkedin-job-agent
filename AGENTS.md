@@ -1,8 +1,8 @@
 # Project Instructions
 
-This project is a personal, local-first LinkedIn job-search assistant. It is a set of agent "skills" that a browser-capable coding agent (e.g. Codex, Claude) follows to shortlist jobs, evaluate fit, and tailor CVs.
+This project is a personal, local-first LinkedIn job-search assistant. It is a set of agent "skills" that Codex (OpenAI's browser-capable coding agent) follows to shortlist jobs, evaluate fit, and tailor CVs. The shared browsing rules in `linkedin.md` target Codex's built-in browser tool.
 
-Before using the job skills, the workspace must be personalized with your own data. If `job_shortlist/profile.md` or `tailor_cv/experience_bank.md` do not exist yet (only the `*.example.md` versions are present), run the setup skill first.
+Before using the job skills, the workspace must be set up and personalized. If `job_shortlist/profile.md` or `tailor_cv/experience_bank.md` do not exist yet (only the `*.example.md` versions are present), this is a fresh checkout: run the setup skill first. Its first step (`### 0. Set up the environment`) installs the runtime dependencies (`reportlab` plus a check for `ripgrep`), so run setup before the other skills even if you only need to install dependencies.
 
 Use `setup_skill.md` when the user says "setup" (or when the required personal data files are missing).
 

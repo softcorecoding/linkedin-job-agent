@@ -1,6 +1,6 @@
 # LinkedIn Job Agent
 
-A local-first, human-in-the-loop assistant for job hunting on LinkedIn. It's a set of **agent skills** — Markdown instruction files that a browser-capable coding agent (such as [Codex](https://openai.com/codex/) or [Claude Code](https://www.anthropic.com/claude-code)) reads and follows to help you search, evaluate, and apply for jobs more efficiently.
+A local-first, human-in-the-loop assistant for job hunting on LinkedIn. It's a set of **agent skills** — Markdown instruction files that [Codex](https://openai.com/codex/), OpenAI's coding agent, reads and follows to help you search, evaluate, and apply for jobs more efficiently. The browsing rules target Codex's built-in browser tool specifically.
 
 There is no app to install and no LinkedIn API. The agent drives a visible browser, slowly and carefully, the way you would. You stay in control: it never submits applications or takes unsafe actions on your behalf.
 
@@ -20,7 +20,7 @@ The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpe
 
 ## How it works
 
-- `AGENTS.md` is the router. Your coding agent reads it and dispatches to the right skill based on your keyword.
+- `AGENTS.md` is the router. Codex reads it and dispatches to the right skill based on your keyword.
 - Each skill is a `*_skill.md` file with detailed, safety-conscious instructions.
 - `linkedin.md` holds shared browsing rules (slow human-like cadence, pagination, stop conditions, never trigger unsafe actions).
 - Your personal data lives in a few **source-of-truth files** that the skills read:
@@ -29,23 +29,37 @@ The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpe
   - `tailor_cv/sample_structure.json` — your name, contact, education, and the CV output structure.
 - `tailor_cv/generate_tailored_pdfs.py` renders a tailored CV JSON into a polished, ATS-friendly PDF.
 
+## Prerequisites
+
+Before setup, make sure these are available:
+
+| Dependency | Why it's needed | Notes |
+|---|---|---|
+| **Codex** with its **built-in browser tool enabled** | Drives LinkedIn for the `job`, `eval`, and `cv` skills | A LinkedIn account must already be logged in inside that browser; the agent does not handle login. |
+| **Python 3.8+** | Runs the CV PDF generator | `python3 --version` to check. |
+| **pip** | Installs the Python dependency below | Ships with Python; on PEP-668 ("externally-managed") systems, use a virtualenv or `pip install --user` if a plain install is refused. |
+| **reportlab** (Python package) | The only third-party Python library; renders the CV PDF | Installed via `requirements.txt` in setup step 2. |
+| **ripgrep (`rg`)** | The `cv` skill's banned-phrase audit greps the generated JSON | `rg --version` to check. Install via `brew install ripgrep` (macOS) or your package manager. |
+
 ## Setup
 
 ### 1. Get the files into your agent
 
-Clone or download this repo, then open the folder with your coding agent (Codex, Claude Code, etc.). The agent should pick up `AGENTS.md` automatically.
+Clone or download this repo, then open the folder with Codex. The agent should pick up `AGENTS.md` automatically.
 
 ### 2. Install the PDF dependency
 
-The CV generator needs `reportlab`:
+The CV generator needs `reportlab` (the only third-party Python package):
 
 ```bash
 python3 -m pip install -r tailor_cv/requirements.txt
 ```
 
+If pip refuses on an externally-managed Python, create a virtualenv first (`python3 -m venv .venv && source .venv/bin/activate`) — `.venv/` is already git-ignored.
+
 ### 3. Personalize the workspace
 
-This repo ships with a **fictional sample persona ("Alex Rivera")** so you can see the expected format. Replace it with your own data by telling your agent:
+This repo ships with a **fictional sample persona ("John Doe")** so you can see the expected format. Replace it with your own data by telling your agent:
 
 ```
 setup
@@ -71,7 +85,7 @@ eval  https://www.linkedin.com/my-items/saved-jobs/
 cv    https://www.linkedin.com/jobs/view/1234567890/
 ```
 
-Tailored CVs are written to `tailor_cv/<Company>_<Role>/` as a JSON + a PDF named from your name (e.g. `alex_rivera_cv.pdf`). These output folders are git-ignored.
+Tailored CVs are written to `tailor_cv/<Company>_<Role>/` as a JSON + a PDF named from your name (e.g. `john_doe_cv.pdf`). These output folders are git-ignored.
 
 ## Safety model
 

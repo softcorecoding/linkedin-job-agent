@@ -1,6 +1,6 @@
 # Candidate Shortlist Profile
 
-> EXAMPLE FILE — fictional persona "Alex Rivera". Run the `setup` skill to replace
+> EXAMPLE FILE — fictional persona "John Doe". Run the `setup` skill to replace
 > this with your own `profile.md`. The structure below is what the shortlist and
 > fit-evaluation skills expect; keep the three sections.
 
@@ -12,7 +12,7 @@ Early-career data and business analyst. Best-fit roles sit around analytics, bus
 
 If any of these are true, skip the job immediately, regardless of other signals:
 
-- **Company:** (List companies you never want to apply to, e.g. specific employers or recruiters.)
+- **Company:** (List companies you never want to apply to, e.g. specific employers.)
 - **Seniority (title + scope):** Head, Director, VP, C-level, Chief, Partner. Also skip Manager / Senior Manager / Principal / Lead when paired with people management, P&L ownership, or a 5+ years experience requirement. Any seniority that stays at 0-3 years of experience stays in.
 - **Experience floor:** Job requires 5+ years of relevant experience as a hard minimum. "2+ years" is acceptable; "5+ years" is not.
 - **Country:** (List countries to automatically exclude, e.g. for visa or relocation reasons.)

@@ -44,7 +44,7 @@ Save generated application documents inside `tailor_cv/`, with a new folder name
 The files inside should be named:
 
 - `[company_name]_[job_title].json`
-- `[candidate_name]_cv.pdf` (the generator derives this from the `candidate.name` field in the JSON, e.g. `alex_rivera_cv.pdf`)
+- `[candidate_name]_cv.pdf` (the generator derives this from the `candidate.name` field in the JSON, e.g. `john_doe_cv.pdf`)
 
 ## Core Workflow
 

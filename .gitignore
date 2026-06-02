@@ -1,3 +1,6 @@
+# Private agent handoff log — local only, never publish
+WORKLOG.md
+
 # Personal source-of-truth data (created by the setup skill from the *.example files)
 job_shortlist/profile.md
 tailor_cv/experience_bank.md
