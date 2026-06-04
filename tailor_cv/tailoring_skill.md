@@ -134,7 +134,6 @@ This strategy should answer:
 - Which experience atoms should be omitted because they distract from the target role?
 - Which parts of professional experience, and personal project experience should be foregrounded?
 - Which skills categories should appear for this job?
-- Should a Personal Projects section be included, especially for agentic AI, workflow automation, or applied AI roles?
 - What wording should be careful because of ground-truth limits?
 - What role-specific writing angles should be derived from the factual evidence?
 

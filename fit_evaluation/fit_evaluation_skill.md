@@ -40,8 +40,8 @@ Do not expose the full internal evidence map. Use it to make the decision.
 - `5`: Excellent fit. Core requirements are strongly supported by multiple evidence-bank atoms; role is close to the candidate's target direction.
 - `4`: Strong fit. Most important requirements are supported; gaps are minor or manageable.
 - `3`: Plausible fit. There is enough real evidence to justify keeping the job, but gaps, stretch, or uncertainty remain.
-- `2`: Weak fit. Some superficial overlap exists, but core requirements are unsupported, too senior, too technical, or not aligned enough.
-- `1`: Not worth applying. Hard exclusion, clear non-sponsorship, wrong role family, non-English job description, severe evidence gap, or obvious mismatch.
+- `2`: Weak fit. Some superficial overlap exists, but core requirements are unsupported or not aligned enough.
+- `1`: Not worth applying. Hard exclusion, wrong role family, severe evidence gap, or obvious mismatch.
 
 Penalties and removals:
 
@@ -64,7 +64,7 @@ For each job, identify:
 - unsupported or risky requirements
 - claim-boundary issues
 
-Respect claim boundaries. Do not credit the candidate as a software engineer, ML engineer, data scientist, deep security engineer, enterprise architect, professional penetration tester, lawyer, or senior people manager unless the evidence bank directly supports that.
+Respect claim boundaries. Do not credit the candidate as role or role family unless the evidence bank directly supports that.
 
 ## LinkedIn Navigation
 
@@ -120,12 +120,11 @@ Do not show the full tracker to the user unless asked.
 6. Open each pending saved job and verify the detail page matches the intended title and company.
 7. Expand and read the full "About the job" section. Ignore company marketing text unless it is part of the role requirements or sponsorship/work-authorization language.
 8. Apply hard exclusions first. If one applies, score `1` or `2`, unsave, and record the reason.
-9. Scan for negative visa/work-authorization language. If clearly incompatible, unsave directly.
-10. Build the internal requirement/evidence map against `experience_bank.md`.
-11. Assign a 1-5 score using the scoring rubric and visible penalties.
-12. If final score is below 3, unsave the job.
-13. If final score is 3 or above, leave the job saved.
-14. When the current page has no pending saved jobs, advance to the next page using List Pagination in `linkedin.md`. Continue through all saved-job pages until the Completion Requirement is met.
+9. Build the internal requirement/evidence map against `experience_bank.md`.
+10. Assign a 1-5 score using the scoring rubric and visible penalties.
+11. If final score is below 3, unsave the job.
+12. If final score is 3 or above, leave the job saved.
+13. When the current page has no pending saved jobs, advance to the next page using List Pagination in `linkedin.md`. Continue through all saved-job pages until the Completion Requirement is met.
 
 ## Stop Conditions
 
