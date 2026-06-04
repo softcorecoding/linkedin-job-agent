@@ -67,7 +67,11 @@ Respect claim boundaries. Do not credit the candidate as role or role family unl
 
 ## LinkedIn Navigation
 
-Start from the user-provided LinkedIn saved jobs / job tracker URL. Follow the shared rules in `linkedin.md` (browser visibility, cadence, stop conditions, list pagination, and completion across all pages). For fit evaluation, an "item" is a saved job.
+Start from the user-provided LinkedIn saved jobs / job tracker URL, or from the current visible Codex browser page if the user says only `eval` and that page is already the LinkedIn saved jobs / job tracker page. Follow the shared rules in `linkedin.md` (starting page, browser visibility, cadence, stop conditions, list pagination, and completion across all pages). For fit evaluation, an "item" is a saved job.
+
+If this skill is reached through the post-shortlist handoff, start from the current Saved page after the agent has navigated Jobs -> Job Tracker -> Saved and verified that Saved jobs are visible.
+
+If the user says only `eval` and the current page is not the saved jobs / job tracker page, stop and ask the user to open it in the Codex browser or rerun with the URL.
 
 Only inspect LinkedIn job-detail pages. The active page must be a job post URL such as `https://www.linkedin.com/jobs/view/<job-id>/...` and must contain the intended "About the job" section.
 
@@ -113,7 +117,7 @@ Do not show the full tracker to the user unless asked.
 
 1. Read `tailor_cv/experience_bank.md`.
 2. Read `job_shortlist/profile.md`, using only hard exclusions.
-3. Open the saved jobs tracker URL and make the browser visible.
+3. Open the saved jobs tracker URL if provided; otherwise verify and use the current visible Codex browser page. Make the browser visible.
 4. Work from top to bottom through the saved jobs list.
 5. Add each visible saved job to the Review Tracker before opening details.
 6. Open each pending saved job and verify the detail page matches the intended title and company.
@@ -142,4 +146,4 @@ Produce a concise final summary:
 - uncertain jobs requiring human review, if any
 - any LinkedIn access issue or stop condition encountered
 
-End by telling the user the next workflow step exactly: start a new Codex session, pick one of the kept jobs, open its specific LinkedIn job post, and run `cv <specific LinkedIn job URL>` to generate a tailored CV for that role. Do not suggest applying, recruiter outreach, or profile changes unless the user explicitly asks.
+End by telling the user the next workflow step exactly: start a new Codex session, pick one of the kept jobs, open its specific LinkedIn job post in the Codex browser and run `cv`, or run `cv <specific LinkedIn job URL>`, to generate a tailored CV for that role. Do not suggest applying, recruiter outreach, or profile changes unless the user explicitly asks.

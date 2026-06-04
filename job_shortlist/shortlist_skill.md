@@ -39,6 +39,7 @@ Follow the shared rules in `linkedin.md` (browser visibility, cadence, stop cond
 
 Shortlist-specific note:
 
+- If the user says only `job` with no URL, use the current visible Codex browser page as the starting page only if it is already a LinkedIn jobs search/listing page. Otherwise stop and ask the user to open a LinkedIn jobs search page in the Codex browser or rerun with the URL.
 - Click visible cards from the left-side results list; do not repeatedly edit URLs with `currentJobId`.
 
 ## Save Precondition
@@ -74,7 +75,7 @@ Do not show the full tracker to the user unless asked.
 
 ## Workflow
 
-1. Open the LinkedIn jobs listing URL and make the browser visible.
+1. Open the LinkedIn jobs listing URL if provided; otherwise verify and use the current visible Codex browser page. Make the browser visible.
 2. Read `job_shortlist/profile.md`.
 3. On each result page, scroll inside the left-side results list (per List Pagination in `linkedin.md`) until new cards stop loading and the bottom of the list, including the numbered pagination row, is reached.
 4. Add each loaded card to the Review Tracker before opening details.
@@ -126,8 +127,10 @@ Do not:
 - change account settings
 - bypass CAPTCHAs, rate limits, login checks, or access controls
 - use aggressive or high-speed scraping behavior
-- open or evaluate the saved-jobs tracker
+- open or evaluate the saved-jobs tracker during shortlisting
 - score, rank, or unsave jobs
+
+Post-run exception: after producing the shortlist summary, you may ask the user whether they want to continue directly to fit evaluation. If they confirm, use the Saved Jobs Handoff in `linkedin.md` to navigate Jobs -> Job Tracker -> Saved, then proceed with `fit_evaluation_skill.md` from that page. Do not score, rank, or unsave jobs until the eval workflow has begun.
 
 ## Expected Output
 
@@ -141,4 +144,4 @@ Produce a brief end-of-run summary with only:
 - uncertain jobs, with one short reason each
 - any stop condition or LinkedIn access issue encountered
 
-End by telling the user the next workflow step exactly: start a new Codex session, then run `eval <LinkedIn saved jobs / job tracker URL>` to evaluate the saved jobs against the experience bank and remove weak fits. Do not suggest CV tailoring directly after shortlisting unless the user explicitly asks to skip evaluation.
+End by telling the user the next workflow step exactly: evaluate the saved jobs against the experience bank and remove weak fits. Ask whether they want you to open the Saved jobs tracker now and continue to `eval`. If they say yes, navigate Jobs -> Job Tracker -> Saved using the visible LinkedIn UI, then proceed with `fit_evaluation_skill.md`. If they say no or do not answer, tell them they can start a new Codex session, open the LinkedIn saved jobs / job tracker page in the Codex browser and run `eval`, or run `eval <LinkedIn saved jobs / job tracker URL>`. Do not suggest CV tailoring directly after shortlisting unless the user explicitly asks to skip evaluation.

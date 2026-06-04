@@ -56,7 +56,7 @@ Before personalizing, make sure the tools the skills depend on are installed. Do
 
    If it is missing, install it (`brew install ripgrep` on macOS, or the system package manager) and tell the user if you cannot.
 
-Note the `job`, `eval`, and `cv` skills also require Codex's built-in browser tool to be enabled, with the user already logged in to LinkedIn in that browser. You cannot install that here; just confirm with the user if browsing later fails.
+Note the `linkedin`, `job`, `eval`, and `cv` workflows also require Codex's built-in browser tool to be enabled. If the user is not logged in to LinkedIn in the Codex browser yet, they can say `linkedin` to open LinkedIn there and complete login before running the job workflows.
 
 ### 1. Read the templates
 
@@ -138,4 +138,4 @@ After writing the files, give the user a short summary:
 
 Remind the user that these files are git-ignored and stay local, and that they can re-run "setup" anytime to extend the experience bank or update their profile.
 
-Suggest that the user start a new Codex session before running the repo skills, so those workflows begin with the freshly created profile and experience files as their clean context. Tell them the next workflow step is `job <LinkedIn jobs search URL>` to shortlist plausible jobs.
+Suggest that the user start a new Codex session before running the repo skills, so those workflows begin with the freshly created profile and experience files as their clean context. Tell them the next workflow step is to open a LinkedIn jobs search page in the Codex browser and run `job`, or run `job <LinkedIn jobs search URL>`, to shortlist plausible jobs.

@@ -49,7 +49,9 @@ The generator writes all application documents into `tailor_cv/[slug]/`, a folde
 
 ### 1. Open And Analyze The Job
 
-Start the browser with the user-provided LinkedIn job URL. Do not ask for permission to open it.
+Start the browser with the user-provided LinkedIn job URL if one was provided. Do not ask for permission to open it.
+
+If the user says only `cv` with no URL, use the current visible Codex browser page as the starting page only if it is already a specific LinkedIn job post page, normally a `/jobs/view/<job-id>/` page. If it is not, stop and ask the user to open a specific LinkedIn job post in the Codex browser or rerun with the URL.
 
 Make sure the browser is visible to the user.
 
@@ -219,4 +221,4 @@ After generating the PDF, tell the user briefly:
 
 Do not dump the full internal evidence map unless the user asks.
 
-End by telling the user that the designed workflow for this job is complete: they should review the generated PDF themselves before using it. If they want another tailored CV, the next canonical step is to start a new Codex session and run `cv <specific LinkedIn job URL>` for another kept job from fit evaluation. Do not suggest applying, messaging recruiters, changing LinkedIn settings, or additional career-planning steps unless the user explicitly asks.
+End by telling the user that the designed workflow for this job is complete: they should review the generated PDF themselves before using it. If they want another tailored CV, the next canonical step is to start a new Codex session, open another kept LinkedIn job post in the Codex browser and run `cv`, or run `cv <specific LinkedIn job URL>`. Do not suggest applying, messaging recruiters, changing LinkedIn settings, or additional career-planning steps unless the user explicitly asks.

@@ -1,12 +1,24 @@
 # LinkedIn
 
-Shared LinkedIn navigation rules for any skill that drives the browser over LinkedIn (`shortlist_skill.md`, `fit_evaluation_skill.md`). Skills reference this file instead of restating these rules.
+Shared LinkedIn navigation rules for any skill that drives the browser over LinkedIn (`shortlist_skill.md`, `fit_evaluation_skill.md`, `tailoring_skill.md`). Skills reference this file instead of restating these rules.
 
-Each skill defines what an "item" is and what to do with it: a result card for shortlisting, a saved job for fit evaluation. The browsing, pagination, and completion rules below apply the same way to both.
+Each skill defines what page or item it works on: a result card for shortlisting, a saved job for fit evaluation, or a specific job post for CV tailoring. The starting-page, visibility, and safety rules apply to all LinkedIn skills; pagination and completion rules apply to list workflows.
+
+## Starting Page
+
+If the user provided a LinkedIn URL, open that URL in the browser and make sure the browser is visible to the user before doing anything else.
+
+If the user did not provide a URL, use the current visible Codex browser page as the starting page. Before continuing, verify from the visible page text or URL that it is the correct LinkedIn page type for the active skill:
+
+- `job`: a LinkedIn jobs search/listing page, including a search page with a job detail open in the side panel
+- `eval`: a LinkedIn saved jobs / job tracker page
+- `cv`: a specific LinkedIn job post page, normally a `/jobs/view/<job-id>/` page
+
+If the current page is not the right page type, stop and tell the user what page to open in the Codex browser, or ask them to rerun the command with the right URL.
 
 ## Browser Visibility
 
-Open the user-provided LinkedIn URL in the browser and make sure the browser is visible to the user before doing anything else.
+Make sure the browser is visible to the user before doing anything else.
 
 ## Reading The Page
 
@@ -18,6 +30,18 @@ To read or verify page content (titles, company, description, button labels, pag
 - Avoid bulk opening, background tabs, parallel page loads, scraping loops, and rapid direct navigation across job IDs.
 - Wait 2-3 seconds after opening an item before opening another.
 - If navigation or loading fails, pause and inspect the visible page before trying one gentle recovery action.
+
+## Saved Jobs Handoff
+
+After shortlisting completes, the agent may offer a user-confirmed handoff into fit evaluation. If the user confirms, navigate using LinkedIn's visible UI:
+
+1. Click the LinkedIn `Jobs` tab.
+2. Click the `Job Tracker` tab.
+3. Click `Saved`.
+4. Verify that the Saved jobs / job tracker page is visible.
+5. Continue with `fit_evaluation_skill.md` from that current page.
+
+This handoff is allowed only after the shortlist summary has been produced and the user has confirmed. Do not use it to evaluate saved jobs during the shortlist workflow itself.
 
 ## Stop Conditions
 

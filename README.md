@@ -6,15 +6,16 @@ There is no app to install and no LinkedIn API. The agent drives a visible brows
 
 ## What it does
 
-The agent has three skills, each triggered by a keyword plus a LinkedIn URL:
+The main agent workflows are triggered by a keyword plus, where needed, a LinkedIn URL:
 
-| Say | …followed by | What happens |
+| Say | Optional input | What happens |
 |---|---|---|
-| **`job`** | a LinkedIn job-search results URL | First-pass **shortlisting**: scans every result page, skips your hard exclusions, and saves plausibly relevant jobs for later. |
-| **`eval`** | your LinkedIn saved-jobs URL | **Fit evaluation**: re-reads each saved job, scores it 1-5 against your real experience, and unsaves the weak ones. |
-| **`cv`** | a specific LinkedIn job URL | **CV tailoring**: writes a fresh, evidence-based CV for that role and generates a clean PDF. |
+| **`linkedin`** | nothing | Opens LinkedIn in the visible Codex browser so you can log in there or prepare the page for the next workflow. |
+| **`job`** | optional LinkedIn job-search results URL | First-pass **shortlisting**: scans every result page, skips your hard exclusions, and saves plausibly relevant jobs for later. If no URL is provided, uses the current Codex browser page. |
+| **`eval`** | optional LinkedIn saved-jobs URL | **Fit evaluation**: re-reads each saved job, scores it 1-5 against your real experience, and unsaves the weak ones. If no URL is provided, uses the current Codex browser page. |
+| **`cv`** | optional specific LinkedIn job URL | **CV tailoring**: writes a fresh, evidence-based CV for that role and generates a clean PDF. If no URL is provided, uses the current Codex browser page. |
 
-A fourth skill, **`setup`**, personalizes the workspace for you the first time (see below).
+The **`setup`** skill personalizes the workspace for you the first time (see below).
 
 The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpens it → `cv` invests effort only in the roles worth it.
 
@@ -36,7 +37,7 @@ Before setup, make sure these are available:
 
 | Dependency | Why it's needed | Notes |
 |---|---|---|
-| **Codex app** with its **built-in browser tool enabled** | Drives LinkedIn for the `job`, `eval`, and `cv` skills | The Codex CLI will not work for this repo because it does not support the browser plugin. A LinkedIn account must already be logged in inside the app browser; the agent does not handle login. |
+| **Codex app** with its **built-in browser tool enabled** | Drives LinkedIn for the `linkedin`, `job`, `eval`, and `cv` workflows | The Codex CLI will not work for this repo because it does not support the browser plugin. If you are not logged in inside the app browser yet, say `linkedin` and log in there before running the job workflows. |
 | **Python 3.8+** | Runs the CV PDF generator | `python3 --version` to check. |
 | **pip** | Installs the Python dependency below | Ships with Python; on PEP-668 ("externally-managed") systems, use a virtualenv or `pip install --user` if a plain install is refused. |
 | **reportlab** (Python package) | The only third-party Python library; renders the CV PDF | Installed via `requirements.txt` in setup step 2. |
@@ -78,21 +79,26 @@ You can copy the sample files from `sample/` to their real target paths and fill
 
 ## Usage
 
-Once personalized, just talk to your agent with a keyword and a URL:
+Once personalized, just talk to your agent with a keyword. You can paste a URL, or first navigate LinkedIn in the Codex browser and then use the keyword by itself:
 
 ```
+linkedin
+job
 job   https://www.linkedin.com/jobs/search/?keywords=data%20analyst&...
+eval
 eval  https://www.linkedin.com/my-items/saved-jobs/
+cv
 cv    https://www.linkedin.com/jobs/view/1234567890/
 ```
 
 Use them in this order:
 
-1. Run `job <LinkedIn jobs search URL>` to save broadly plausible jobs.
-2. Start a new Codex session, then run `eval <LinkedIn saved-jobs URL>` to score saved jobs and remove weak fits.
-3. Start a new Codex session, then run `cv <specific LinkedIn job URL>` for one kept job at a time.
+1. Optional: run `linkedin` if you need to log in to LinkedIn inside the Codex browser or want to prepare the page there.
+2. Open a LinkedIn jobs search page in the Codex browser, then run `job`; or run `job <LinkedIn jobs search URL>`.
+3. After shortlisting, confirm when the agent asks if you want to continue to `eval`; it can open Jobs -> Job Tracker -> Saved itself. You can also start a new Codex session, open the saved-jobs page in the Codex browser, then run `eval`; or run `eval <LinkedIn saved-jobs URL>`.
+4. Start a new Codex session, open one kept job post in the Codex browser, then run `cv`; or run `cv <specific LinkedIn job URL>`.
 
-After each skill finishes, the agent should point you to the next step in this sequence and remind you to start a new session for the next workflow instead of suggesting unrelated actions.
+After each skill finishes, the agent should point you to the next step in this sequence. Most next steps should start in a new session, but `job` may hand off directly to `eval` after your confirmation by navigating LinkedIn's Jobs -> Job Tracker -> Saved path.
 
 Tailored CVs are written to `tailor_cv/<Company>_<Role>/` as a JSON + a PDF named from your name (e.g. `john_doe_cv.pdf`). These output folders are git-ignored.
 
@@ -115,6 +121,7 @@ You remain responsible for reviewing everything and for complying with LinkedIn'
 ├── AGENTS.md                       # router: maps keywords to skills
 ├── README.md
 ├── linkedin.md                     # shared LinkedIn browsing rules
+├── linkedin_skill.md               # opens LinkedIn in the Codex browser for login/session handoff
 ├── setup_skill.md                  # one-time personalization
 ├── sample/                         # fictional setup samples
 │   ├── profile.example.md          # → job_shortlist/profile.md
