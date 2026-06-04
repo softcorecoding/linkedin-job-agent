@@ -17,7 +17,7 @@ OUT_DIR = Path("tailor_cv")
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 IDENTITY_PATH = SCRIPT_DIR / "identity.json"
-IDENTITY_EXAMPLE_PATH = SCRIPT_DIR / "identity.example.json"
+IDENTITY_EXAMPLE_PATH = SCRIPT_DIR.parent / "sample" / "identity.example.json"
 
 
 def slugify(value):
@@ -164,7 +164,7 @@ def load_identity():
     if not IDENTITY_PATH.exists():
         raise SystemExit(
             f"Missing {IDENTITY_PATH}.\n"
-            f"Copy {IDENTITY_EXAMPLE_PATH.name} to {IDENTITY_PATH.name} and fill in your "
+            f"Copy {IDENTITY_EXAMPLE_PATH} to {IDENTITY_PATH} and fill in your "
             "real candidate details, education, and languages."
         )
     return json.loads(IDENTITY_PATH.read_text(encoding="utf-8"))

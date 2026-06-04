@@ -1,11 +1,11 @@
 ---
 name: setup
-description: One-time personalization of the workspace. Interview the user and turn the shipped example files into their own git-ignored source-of-truth data files.
+description: One-time personalization of the workspace. Interview the user and turn the shipped sample files into their own git-ignored source-of-truth data files.
 ---
 
 ## Goal
 
-Personalize this workspace for the current user by creating their own data files from the shipped examples. After setup, the job, eval, and cv skills will run against the user's real profile, experience, and identity.
+Personalize this workspace for the current user by creating their own data files from the shipped samples in `sample/`. After setup, the job, eval, and cv skills will run against the user's real profile, experience, and identity.
 
 This skill is conversational. Interview the user, then write files. Do not invent facts about the user — ask.
 
@@ -13,9 +13,9 @@ This skill is conversational. Interview the user, then write files. Do not inven
 
 | Target (git-ignored, personal) | From template |
 |---|---|
-| `job_shortlist/profile.md` | `job_shortlist/profile.example.md` |
-| `tailor_cv/experience_bank.md` | `tailor_cv/experience_bank.example.md` |
-| `tailor_cv/identity.json` | `tailor_cv/identity.example.json` |
+| `job_shortlist/profile.md` | `sample/profile.example.md` |
+| `tailor_cv/experience_bank.md` | `sample/experience_bank.example.md` |
+| `tailor_cv/identity.json` | `sample/identity.example.json` |
 
 `tailor_cv/cv_structure.json` is a generic, identity-free CV-structure template that stays tracked in the repo. Do not write the user's personal data into it; the user's name, contact, and education live in the git-ignored `tailor_cv/identity.json`.
 
@@ -60,11 +60,11 @@ Note the `job`, `eval`, and `cv` skills also require Codex's built-in browser to
 
 ### 1. Read the templates
 
-Read all template files first so you understand the exact structure to reproduce:
+Read all sample files first so you understand the exact structure to reproduce:
 
-- `job_shortlist/profile.example.md`
-- `tailor_cv/experience_bank.example.md`
-- `tailor_cv/identity.example.json`
+- `sample/profile.example.md`
+- `sample/experience_bank.example.md`
+- `sample/identity.example.json`
 
 (You may also glance at `tailor_cv/cv_structure.json` to see how identity and education are consumed, but you do not edit it during setup.)
 
@@ -82,7 +82,7 @@ Ask the user for:
 - Languages: each language with proficiency (e.g. `English (Fluent/C1), German (Intermediate/B1)`).
 - Education: for each degree — institution, degree (e.g. MSc/BSc), field/specialization, years, GPA (optional), and optionally relevant coursework or thesis.
 
-Use the user provided information to create `tailor_cv/identity.json` from the structure example in `tailor_cv/identity.example.json`.
+Use the user provided information to create `tailor_cv/identity.json` from the structure example in `sample/identity.example.json`.
 
 This file is git-ignored and holds the only personal identity data in the project. Do not put any of this into `tailor_cv/cv_structure.json`, which stays a tracked, identity-free template — the tailoring skill reads identity from `identity.json` and merges it into each per-job CV.
 
@@ -90,7 +90,7 @@ This file is git-ignored and holds the only personal identity data in the projec
 
 Build this **before** the profile — the profile's evidence anchors are derived from it.
 
-This is the most important and most detailed file. Follow the `experience_bank.example.md` structure, interview the user employer by employer, and project by project, to create `tailor_cv/experience_bank.md`. For each role or significant project, capture one or more "Experience Atoms" using the example's atom structure:
+This is the most important and most detailed file. Follow the `sample/experience_bank.example.md` structure, interview the user employer by employer, and project by project, to create `tailor_cv/experience_bank.md`. For each role or significant project, capture one or more "Experience Atoms" using the sample's atom structure:
 
 When details are missing, push for specifics: numbers, tools, scope, the user's actual personal contribution vs. the team's, and honest limits. Vague input here produces weak CVs later.
 
@@ -98,7 +98,7 @@ Work in passes if needed: capture the strongest 2-4 roles first, write the file,
 
 ### 4. Build the shortlist profile
 
-Now write `job_shortlist/profile.md`, drawing on the experience bank you just built to make "Candidate Profile Summary" and "Candidate Evidence Anchors" sections. Build "Hard Exclusions" section with the user. Mirror the example's three sections:
+Now write `job_shortlist/profile.md`, drawing on the experience bank you just built to make "Candidate Profile Summary" and "Candidate Evidence Anchors" sections. Build "Hard Exclusions" section with the user. Mirror the sample's three sections:
 
 - **Candidate Profile Summary** — a few sentences describing the candidate's career stage and evidence-backed role-family fit. **Derive this directly from the experience bank** (project families, role titles, evidence tags, tools, outcomes, and stakeholder context).
 - **Candidate Evidence Anchors** — the themes/keywords that should make a job worth saving. **Derive these directly from the experience bank** (its Evidence Tags, tools, and outcomes), then confirm them with the user. Do not invent anchors the bank does not support.

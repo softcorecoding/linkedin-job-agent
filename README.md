@@ -60,7 +60,7 @@ If pip refuses on an externally-managed Python, create a virtualenv first (`pyth
 
 ### 3. Personalize the workspace
 
-This repo ships with a **fictional sample persona ("John Doe")** so you can see the expected format. Replace it with your own data by telling your agent:
+This repo ships with a **fictional sample persona ("John Doe")** in `sample/` so you can see the expected format. Replace it with your own data by telling your agent:
 
 ```
 setup
@@ -68,13 +68,13 @@ setup
 
 The `setup` skill interviews you and writes your own files:
 
-- `job_shortlist/profile.md` (from `profile.example.md`)
-- `tailor_cv/experience_bank.md` (from `experience_bank.example.md`)
-- `tailor_cv/identity.json` (from `identity.example.json`) — your name, contact, languages, and education
+- `job_shortlist/profile.md` (from `sample/profile.example.md`)
+- `tailor_cv/experience_bank.md` (from `sample/experience_bank.example.md`)
+- `tailor_cv/identity.json` (from `sample/identity.example.json`) — your name, contact, languages, and education
 
 All three personal files are **git-ignored**, so they stay on your machine and never get committed.
 
-You can copy the example files (`*.example.md`, `identity.example.json`) to their real names and fill them in by hand instead — `setup` just makes it conversational. Re-run `setup` anytime to extend your experience bank or update your profile.
+You can copy the sample files from `sample/` to their real target paths and fill them in by hand instead — `setup` just makes it conversational. Re-run `setup` anytime to extend your experience bank or update your profile.
 
 ## Usage
 
@@ -108,21 +108,22 @@ You remain responsible for reviewing everything and for complying with LinkedIn'
 ├── README.md
 ├── linkedin.md                     # shared LinkedIn browsing rules
 ├── setup_skill.md                  # one-time personalization
+├── sample/                         # fictional setup samples
+│   ├── profile.example.md          # → job_shortlist/profile.md
+│   ├── identity.example.json       # → tailor_cv/identity.json
+│   └── experience_bank.example.md  # → tailor_cv/experience_bank.md
 ├── job_shortlist/
-│   ├── shortlist_skill.md
-│   └── profile.example.md          # → your git-ignored profile.md
+│   └── shortlist_skill.md
 ├── fit_evaluation/
 │   └── fit_evaluation_skill.md
 └── tailor_cv/
     ├── tailoring_skill.md
     ├── generate_tailored_pdfs.py   # JSON → PDF
     ├── requirements.txt
-    ├── cv_structure.json       # identity-free CV output structure
-    ├── identity.example.json        # → your git-ignored identity.json (name/contact/languages/education)
-    └── experience_bank.example.md  # → your git-ignored experience_bank.md
+    └── cv_structure.json           # identity-free CV output structure
 ```
 
 ## Notes for sharing
 
-- All three personal data files (`profile.md`, `experience_bank.md`, `identity.json`) are git-ignored, so your identity, experience, and target roles never get committed. The tracked files hold only the fictional sample persona and generic templates.
+- All three personal data files (`profile.md`, `experience_bank.md`, `identity.json`) are git-ignored, so your identity, experience, and target roles never get committed. The tracked `sample/` files hold only the fictional sample persona.
 - It's still good practice to skim `git status` before your first commit to confirm nothing personal is staged.
