@@ -80,7 +80,7 @@ Do not show the full tracker to the user unless asked.
 4. Add each loaded card to the Review Tracker before opening details.
 5. Mark duplicates and obvious card-level skips before opening job details.
 6. For each remaining pending card, click the visible card and wait for the detail panel to load.
-7. Read job detail to apply the Shortlist Decision. Focus on the job description; ignore the "About the company" section. Skip immediately if the job description or requirements are not in English.
+7. Read job detail to apply the Shortlist Decision. Focus on the job description; ignore the "About the company" section.
 8. Save plausible jobs using the Save Button Rules below.
 9. Mark ambiguous jobs as `uncertain` and continue. Do not stop mid-run for fit questions.
 10. When the current page has no pending tracked cards, advance to the next page using List Pagination in `linkedin.md`. Do not stop just because the current page is done.
