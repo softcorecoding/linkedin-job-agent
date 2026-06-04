@@ -36,7 +36,7 @@ Before setup, make sure these are available:
 
 | Dependency | Why it's needed | Notes |
 |---|---|---|
-| **Codex** with its **built-in browser tool enabled** | Drives LinkedIn for the `job`, `eval`, and `cv` skills | A LinkedIn account must already be logged in inside that browser; the agent does not handle login. |
+| **Codex app** with its **built-in browser tool enabled** | Drives LinkedIn for the `job`, `eval`, and `cv` skills | The Codex CLI will not work for this repo because it does not support the browser plugin. A LinkedIn account must already be logged in inside the app browser; the agent does not handle login. |
 | **Python 3.8+** | Runs the CV PDF generator | `python3 --version` to check. |
 | **pip** | Installs the Python dependency below | Ships with Python; on PEP-668 ("externally-managed") systems, use a virtualenv or `pip install --user` if a plain install is refused. |
 | **reportlab** (Python package) | The only third-party Python library; renders the CV PDF | Installed via `requirements.txt` in setup step 2. |
