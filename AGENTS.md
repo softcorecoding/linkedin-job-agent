@@ -14,6 +14,17 @@ Use `tailoring_skill.md` when the user says "cv" followed by a page of a specifi
 
 Use `fit_evaluation_skill.md` when the user says "eval" followed by a LinkedIn saved jobs / job tracker URL.
 
+## Intended User Workflow
+
+The designed workflow is:
+
+1. `setup` to create the local profile, experience bank, and identity files.
+2. `job <LinkedIn jobs search URL>` to shortlist and save plausible jobs.
+3. `eval <LinkedIn saved jobs / job tracker URL>` to score saved jobs and remove weak fits.
+4. `cv <specific LinkedIn job URL>` to tailor a CV only for a kept, worthwhile job.
+
+At the end of each skill, guide the user to the next step in this workflow and tell them to start a new Codex session for that next skill/workflow so it begins with clean context. Do not suggest unrelated next steps such as applying manually, messaging recruiters, changing LinkedIn settings, broad career planning, or editing generated files unless the user explicitly asks. If the user starts in the middle of the workflow, complete the requested skill, then point them to the next canonical step.
+
 Whenever any cookie/privacy confirmation pop-up appears in the browser, always reject if available; if reject is not available then choose "only essential".
 
 Whenever you open a url using the browser skill, make sure the browser is also visible to the user.

@@ -218,3 +218,5 @@ After generating the PDF, tell the user briefly:
 - the generated file path
 
 Do not dump the full internal evidence map unless the user asks.
+
+End by telling the user that the designed workflow for this job is complete: they should review the generated PDF themselves before using it. If they want another tailored CV, the next canonical step is to start a new Codex session and run `cv <specific LinkedIn job URL>` for another kept job from fit evaluation. Do not suggest applying, messaging recruiters, changing LinkedIn settings, or additional career-planning steps unless the user explicitly asks.

@@ -140,3 +140,5 @@ Produce a brief end-of-run summary with only:
 - number of jobs skipped
 - uncertain jobs, with one short reason each
 - any stop condition or LinkedIn access issue encountered
+
+End by telling the user the next workflow step exactly: start a new Codex session, then run `eval <LinkedIn saved jobs / job tracker URL>` to evaluate the saved jobs against the experience bank and remove weak fits. Do not suggest CV tailoring directly after shortlisting unless the user explicitly asks to skip evaluation.

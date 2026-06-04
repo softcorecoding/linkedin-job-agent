@@ -46,7 +46,6 @@ Do not expose the full internal evidence map. Use it to make the decision.
 Penalties and removals:
 
 - Fall into one of the hard exclusions in `profile.md`
-- Reposted job, if visible: subtract 1 point.
 - Do not use company pages to infer employee count, sponsorship, or fit. You should be able to gather those information from the job post page itself.
 
 ## Evidence Bank Use
@@ -142,3 +141,5 @@ Produce a concise final summary:
 - unsaved jobs with title, company, score, and brief reason
 - uncertain jobs requiring human review, if any
 - any LinkedIn access issue or stop condition encountered
+
+End by telling the user the next workflow step exactly: start a new Codex session, pick one of the kept jobs, open its specific LinkedIn job post, and run `cv <specific LinkedIn job URL>` to generate a tailored CV for that role. Do not suggest applying, recruiter outreach, or profile changes unless the user explicitly asks.

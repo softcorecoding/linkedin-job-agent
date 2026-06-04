@@ -86,6 +86,14 @@ eval  https://www.linkedin.com/my-items/saved-jobs/
 cv    https://www.linkedin.com/jobs/view/1234567890/
 ```
 
+Use them in this order:
+
+1. Run `job <LinkedIn jobs search URL>` to save broadly plausible jobs.
+2. Start a new Codex session, then run `eval <LinkedIn saved-jobs URL>` to score saved jobs and remove weak fits.
+3. Start a new Codex session, then run `cv <specific LinkedIn job URL>` for one kept job at a time.
+
+After each skill finishes, the agent should point you to the next step in this sequence and remind you to start a new session for the next workflow instead of suggesting unrelated actions.
+
 Tailored CVs are written to `tailor_cv/<Company>_<Role>/` as a JSON + a PDF named from your name (e.g. `john_doe_cv.pdf`). These output folders are git-ignored.
 
 ## Safety model

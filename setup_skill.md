@@ -92,9 +92,31 @@ Build this **before** the profile — the profile's evidence anchors are derived
 
 This is the most important and most detailed file. Follow the `sample/experience_bank.example.md` structure, interview the user employer by employer, and project by project, to create `tailor_cv/experience_bank.md`. For each role or significant project, capture one or more "Experience Atoms" using the sample's atom structure:
 
-When details are missing, push for specifics: numbers, tools, scope, the user's actual personal contribution vs. the team's, and honest limits. Vague input here produces weak CVs later.
+If the user provides an existing CV, use it only as a starting source for draft atoms. A CV is usually too compressed to be a finished experience bank. Parse the CV into candidate roles, projects, tools, and outcomes, then run a follow-up interview before writing the final atoms.
+
+Before accepting an atom as usable, check whether it has enough detail in these areas:
+
+- the situation or business/research/problem context
+- stakeholders or users of the work
+- the user's personal contribution, separate from the team's contribution
+- outputs, deliverables, and outcomes
+- numbers, scale, frequency, or scope where honestly known
+- tools, platforms, methods, and domain concepts
+- evidence tags that can later support search and CV tailoring
+- ground truth limits that prevent overclaiming
+
+When details are missing, push for specifics: numbers, tools, scope, the user's actual personal contribution vs. the team's, and honest limits. Vague input here produces weak CVs later. Ask targeted questions such as:
+
+- What did you personally build, change, analyze, decide, coordinate, or own?
+- Who used the output, reviewed it, or depended on it?
+- What tools, systems, data, models, frameworks, or processes were involved?
+- What was the scale: users, customers, records, revenue, cost, time saved, volume, accuracy, turnaround time, frequency, or team size?
+- What changed because of the work?
+- What would be too strong or untrue to claim from this evidence?
 
 Work in passes if needed: capture the strongest 2-4 roles first, write the file, then offer to add more atoms.
+
+Before moving on to the profile, run a quality check on the draft experience bank. Count the atoms, identify any atom missing personal contribution, tools/methods, outcomes, or ground truth limits, and tell the user which atoms are still thin. If the bank is mostly one-sentence summaries, do not treat setup as complete; ask to deepen the highest-value 2-4 atoms first.
 
 ### 4. Build the shortlist profile
 
@@ -102,7 +124,7 @@ Now write `job_shortlist/profile.md`, drawing on the experience bank you just bu
 
 - **Candidate Profile Summary** — a few sentences describing the candidate's career stage and evidence-backed role-family fit. **Derive this directly from the experience bank** (project families, role titles, evidence tags, tools, outcomes, and stakeholder context).
 - **Candidate Evidence Anchors** — the themes/keywords that should make a job worth saving. **Derive these directly from the experience bank** (its Evidence Tags, tools, and outcomes), then confirm them with the user. Do not invent anchors the bank does not support.
-- **Hard Exclusions** — ask the user for constraint-based skip rules only: companies user doesn't want to apply to, seniority ceilings or floor, excluded countries or cities or any geographical areas, role types to reject, language constraints, visa/sponsorship constraints, work mode constraints, and any other automatic skip rules. Keep these separate from evidence-derived fit signals.
+- **Hard Exclusions** — guide the user through constraint-based skip rules only. Explain that a hard exclusion means "skip immediately even if the job otherwise looks good"; if the user is unsure, leave it out rather than turning a preference into a skip rule. Prompt with concrete categories: companies or sectors the user refuses, seniority ceilings or floor, excluded countries/cities/regions, relocation or commute limits, remote/hybrid/onsite constraints, role types to reject, language requirements, visa/sponsorship constraints, employment type (contract/freelance/internship/unpaid/commission-only), compensation floor if any, travel limits, and any other automatic skip rules. Keep these separate from evidence-derived fit signals.
 
 Important boundary: `Candidate Profile Summary` and `Candidate Evidence Anchors` are evidence-derived. `Hard Exclusions` are user-supplied constraints. Do not ask users to provide target-role preferences as though they were a fourth profile section or an input to evidence anchors.
 
@@ -115,3 +137,5 @@ After writing the files, give the user a short summary:
 - anything still thin or missing that they may want to expand later
 
 Remind the user that these files are git-ignored and stay local, and that they can re-run "setup" anytime to extend the experience bank or update their profile.
+
+Suggest that the user start a new Codex session before running the repo skills, so those workflows begin with the freshly created profile and experience files as their clean context. Tell them the next workflow step is `job <LinkedIn jobs search URL>` to shortlist plausible jobs.
