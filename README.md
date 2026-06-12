@@ -1,144 +1,146 @@
 # LinkedIn Job Agent
 
-A local-first, human-in-the-loop assistant for job hunting on LinkedIn. It's a set of **agent skills** — Markdown instruction files that [Codex](https://openai.com/codex/), OpenAI's coding agent, reads and follows to help you search, evaluate, and apply for jobs more efficiently. The browsing rules target Codex's built-in browser tool specifically.
+A local-first LinkedIn job-search assistant for Codex.
 
-There is no app to install and no LinkedIn API. The agent drives a visible browser, slowly and carefully, the way you would. You stay in control: it never submits applications or takes unsafe actions on your behalf.
+This repo is not a standalone app and does not use the LinkedIn API. It is a set of Markdown skills that Codex reads to help you:
 
-## What it does
+- shortlist LinkedIn jobs
+- evaluate saved jobs against your real experience
+- generate tailored CV PDFs for strong-fit roles
 
-The main agent workflows are triggered by a keyword plus, where needed, a LinkedIn URL:
+The browser stays visible, the workflow is human-in-the-loop, and the agent must not apply to jobs or take final actions for you.
 
-| Say | Optional input | What happens |
-|---|---|---|
-| **`linkedin`** | nothing | Opens LinkedIn in the visible Codex browser so you can log in there or prepare the page for the next workflow. |
-| **`job`** | optional LinkedIn job-search results URL | First-pass **shortlisting**: scans every result page, skips your hard exclusions, and saves plausibly relevant jobs for later. If no URL is provided, uses the current Codex browser page. |
-| **`eval`** | optional LinkedIn saved-jobs URL | **Fit evaluation**: re-reads each saved job, scores it 1-5 against your real experience, and unsaves the weak ones. If no URL is provided, uses the current Codex browser page. |
-| **`cv`** | optional specific LinkedIn job URL | **CV tailoring**: writes a fresh, evidence-based CV for that role and generates a clean PDF. If no URL is provided, uses the current Codex browser page. |
+## Requirements
 
-The **`setup`** skill personalizes the workspace for you the first time (see below).
+- Codex app with the browser plugin available
+- Python 3.8+
+- `pip`
+- `ripgrep` (`rg`)
 
-The workflow is intentionally a funnel: `job` casts a wide net → `eval` sharpens it → `cv` invests effort only in the roles worth it.
+The Codex CLI is not enough for this repo because the LinkedIn workflows require Codex's browser plugin.
 
-## How it works
-
-- `AGENTS.md` is the router. Codex reads it and dispatches to the right skill based on your keyword.
-- Each skill is a `*_skill.md` file with detailed, safety-conscious instructions.
-- `linkedin.md` holds shared browsing rules (slow human-like cadence, pagination, stop conditions, never trigger unsafe actions).
-- Your personal data lives in a few **source-of-truth files** that the skills read:
-  - `job_shortlist/profile.md` — your target roles, hard exclusions, and save signals.
-  - `tailor_cv/experience_bank.md` — your detailed, honest experience, used as evidence for CVs.
-  - `tailor_cv/identity.json` — your name, contact, languages, and education (fixed personal facts merged into every CV).
-  - `tailor_cv/cv_structure.json` — the identity-free CV output structure (a generic template, not personal data).
-- `tailor_cv/generate_tailored_pdfs.py` renders a tailored CV JSON into a polished, ATS-friendly PDF.
-
-## Prerequisites
-
-Before setup, make sure these are available:
-
-| Dependency | Why it's needed | Notes |
-|---|---|---|
-| **Codex app** with its **built-in browser tool enabled** | Drives LinkedIn for the `linkedin`, `job`, `eval`, and `cv` workflows | The Codex CLI will not work for this repo because it does not support the browser plugin. If you are not logged in inside the app browser yet, say `linkedin` and log in there before running the job workflows. |
-| **Python 3.8+** | Runs the CV PDF generator | `python3 --version` to check. |
-| **pip** | Installs the Python dependency below | Ships with Python; on PEP-668 ("externally-managed") systems, use a virtualenv or `pip install --user` if a plain install is refused. |
-| **reportlab** (Python package) | The only third-party Python library; renders the CV PDF | Installed via `requirements.txt` in setup step 2. |
-| **ripgrep (`rg`)** | The `cv` skill's banned-phrase audit greps the generated JSON | `rg --version` to check. Install via `brew install ripgrep` (macOS) or your package manager. |
-
-## Setup
-
-### 1. Get the files into your agent
-
-Clone or download this repo, then open the folder with Codex. The agent should pick up `AGENTS.md` automatically.
-
-### 2. Install the PDF dependency
-
-The `setup` skill (step 3) installs this for you on its first run, so you can normally skip this step. To install manually instead, the CV generator needs `reportlab` (the only third-party Python package):
+The first `setup` run installs the Python PDF dependency from `tailor_cv/requirements.txt`. To install it yourself:
 
 ```bash
 python3 -m pip install -r tailor_cv/requirements.txt
 ```
 
-If pip refuses on an externally-managed Python, create a virtualenv first (`python3 -m venv .venv && source .venv/bin/activate`) — `.venv/` is already git-ignored.
+## First-Time Setup
 
-### 3. Personalize the workspace
+Open this repo in Codex and say:
 
-This repo ships with a **fictional sample persona ("John Doe")** in `sample/` so you can see the expected format. Replace it with your own data by telling your agent:
-
-```
+```text
 setup
 ```
 
-The `setup` skill interviews you and writes your own files:
+The setup skill interviews you and creates three git-ignored personal files:
 
-- `job_shortlist/profile.md` (from `sample/profile.example.md`)
-- `tailor_cv/experience_bank.md` (from `sample/experience_bank.example.md`)
-- `tailor_cv/identity.json` (from `sample/identity.example.json`) — your name, contact, languages, and education
+- `job_shortlist/profile.md` - your candidate summary, hard exclusions, and shortlist signals
+- `tailor_cv/experience_bank.md` - detailed evidence from your work, projects, tools, outcomes, and limits
+- `tailor_cv/identity.json` - your name, contact line, languages, and education
 
-All three personal files are **git-ignored**, so they stay on your machine and never get committed.
+The repo includes fictional examples in `sample/` so you can see the expected format. Your real personal files are ignored by git and should stay local.
 
-You can copy the sample files from `sample/` to their real target paths and fill them in by hand instead — `setup` just makes it conversational. Re-run `setup` anytime to extend your experience bank or update your profile.
+## Normal Workflow
 
-## Usage
+Use the commands in this order:
 
-Once personalized, just talk to your agent with a keyword. You can paste a URL, or first navigate LinkedIn in the Codex browser and then use the keyword by itself:
-
-```
+```text
 linkedin
+job <LinkedIn jobs search URL>
+eval <LinkedIn saved jobs / job tracker URL>
+cv <specific LinkedIn job URL>
+```
+
+You can also open the right LinkedIn page in Codex's visible browser first, then run the command without a URL:
+
+```text
 job
-job   https://www.linkedin.com/jobs/search/?keywords=data%20analyst&...
 eval
-eval  https://www.linkedin.com/my-items/saved-jobs/
 cv
-cv    https://www.linkedin.com/jobs/view/1234567890/
 ```
 
-Use them in this order:
+What each command does:
 
-1. Optional: run `linkedin` if you need to log in to LinkedIn inside the Codex browser or want to prepare the page there.
-2. Open a LinkedIn jobs search page in the Codex browser, then run `job`; or run `job <LinkedIn jobs search URL>`.
-3. After shortlisting, confirm when the agent asks if you want to continue to `eval`; it can open Jobs -> Job Tracker -> Saved itself. You can also start a new Codex session, open the saved-jobs page in the Codex browser, then run `eval`; or run `eval <LinkedIn saved-jobs URL>`.
-4. Start a new Codex session, open one kept job post in the Codex browser, then run `cv`; or run `cv <specific LinkedIn job URL>`.
+| Command | Purpose |
+|---|---|
+| `linkedin` | Opens LinkedIn in Codex's visible browser so you can log in or prepare the page. |
+| `job` | Reviews a LinkedIn jobs search page, skips hard exclusions, checks job descriptions, and saves plausible jobs. |
+| `eval` | Reviews saved jobs, scores them against your experience bank, and removes weak fits. |
+| `cv` | Creates a tailored CV JSON and PDF for one specific job. |
 
-After each skill finishes, the agent should point you to the next step in this sequence. Most next steps should start in a new session, but `job` may hand off directly to `eval` after your confirmation by navigating LinkedIn's Jobs -> Job Tracker -> Saved path.
+For best results, start a fresh Codex session for each major step after setup.
 
-Tailored CVs are written to `tailor_cv/<Company>_<Role>/` as a JSON + a PDF named from your name (e.g. `john_doe_cv.pdf`). These output folders are git-ignored.
+## How Shortlisting Decides What To Save
 
-## Safety model
+The `job` skill reads `job_shortlist/profile.md` and saves only jobs that pass the save gate:
 
-This assistant is deliberately conservative:
+- the actual job description was opened and read
+- no hard exclusion appears in the description
+- profile-specific language exclusions were checked against the description and requirements
+- the role connects to one or more candidate evidence anchors
 
-- The browser stays **visible** to you the whole time.
-- It uses a **slow, human-like cadence** — no scraping loops, no bulk tab opening, no rapid job-ID navigation.
-- It **stops immediately** on rate limits, CAPTCHAs, login/security challenges, or any unsafe UI state.
-- The `cv` skill respects **ground-truth limits** in your experience bank, so it tailors aggressively but does not fabricate claims.
-- It will **never** submit an application, send a message, connect with a recruiter, change your profile, or click any final/unsafe action.
+If the job details cannot be read closely enough, the job is marked uncertain instead of being saved.
 
-You remain responsible for reviewing everything and for complying with LinkedIn's Terms of Service.
+## CV Output
 
-## Repository layout
+Tailored CVs are written under:
 
+```text
+tailor_cv/<company>_<role>/
 ```
+
+Each output folder contains:
+
+- the tailored CV JSON
+- a PDF named from your identity, for example `john_doe_cv.pdf`
+
+Generated CV folders are git-ignored.
+
+## Safety Rules
+
+The agent must not:
+
+- submit applications
+- click Apply, Easy Apply, Submit, Send, Message, Connect, or other final action buttons
+- upload resumes or answer screening questions
+- change your LinkedIn profile, account settings, alerts, or company follows
+- bypass CAPTCHAs, rate limits, login checks, or security challenges
+- use aggressive scraping behavior
+
+You stay responsible for reviewing jobs, generated CVs, and any final application steps.
+
+## Repository Layout
+
+```text
 .
-├── AGENTS.md                       # router: maps keywords to skills
+├── AGENTS.md                       # routes commands to skills
 ├── README.md
-├── linkedin.md                     # shared LinkedIn browsing rules
-├── linkedin_skill.md               # opens LinkedIn in the Codex browser for login/session handoff
-├── setup_skill.md                  # one-time personalization
-├── sample/                         # fictional setup samples
-│   ├── profile.example.md          # → job_shortlist/profile.md
-│   ├── identity.example.json       # → tailor_cv/identity.json
-│   └── experience_bank.example.md  # → tailor_cv/experience_bank.md
+├── linkedin.md                     # shared LinkedIn browser rules
+├── linkedin_skill.md               # opens LinkedIn for login/session setup
+├── setup_skill.md                  # creates personal source-of-truth files
+├── sample/                         # fictional setup examples
+│   ├── profile.example.md
+│   ├── experience_bank.example.md
+│   └── identity.example.json
 ├── job_shortlist/
-│   └── shortlist_skill.md
+│   └── shortlist_skill.md          # `job`
 ├── fit_evaluation/
-│   └── fit_evaluation_skill.md
+│   └── fit_evaluation_skill.md     # `eval`
 └── tailor_cv/
-    ├── tailoring_skill.md
-    ├── generate_tailored_pdfs.py   # JSON → PDF
+    ├── tailoring_skill.md          # `cv`
+    ├── generate_tailored_pdfs.py
     ├── requirements.txt
-    └── cv_structure.json           # identity-free CV output structure
+    └── cv_structure.json           # tracked, identity-free CV structure
 ```
 
-## Notes for sharing
+## Privacy Notes
 
-- All three personal data files (`profile.md`, `experience_bank.md`, `identity.json`) are git-ignored, so your identity, experience, and target roles never get committed. The tracked `sample/` files hold only the fictional sample persona.
-- It's still good practice to skim `git status` before your first commit to confirm nothing personal is staged.
+The personal files below are git-ignored:
+
+- `job_shortlist/profile.md`
+- `tailor_cv/experience_bank.md`
+- `tailor_cv/identity.json`
+- generated `tailor_cv/<company>_<role>/` folders
+
+Before sharing or committing changes, skim `git status` to make sure no personal data is staged.
