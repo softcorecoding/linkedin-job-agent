@@ -39,7 +39,6 @@ Follow the shared rules in `linkedin.md` (browser visibility, cadence, stop cond
 
 Shortlist-specific note:
 
-- If the user says only `job` with no URL, use the current visible Codex browser page as the starting page only if it is already a LinkedIn jobs search/listing page. Otherwise stop and ask the user to open a LinkedIn jobs search page in the Codex browser or rerun with the URL.
 - Click visible cards from the left-side results list; do not repeatedly edit URLs with `currentJobId`.
 
 ## Save Precondition
@@ -49,9 +48,12 @@ Never save a job from title, card metadata, top metadata, company, or location a
 A job may be saved only after the actual job description has been opened and read enough to verify:
 
 - no hard exclusion appears in the description
+- all profile-specific language exclusions have been checked against the description and requirements
 - the role has a real connection to one or more Candidate Evidence Anchors
 
-If the description cannot be loaded, is hidden, repeats only top metadata, or the browser cannot distinguish the job description from surrounding LinkedIn chrome, mark the job `uncertain` and continue.
+Treat the language check as a mandatory save gate, not a heuristic. Before any job can be marked `saved`, the Review Tracker field `language_exclusion_checked_against_requirements` must be `yes`. Set it to `yes` only after reading the actual job description and requirements closely enough to confirm that the role does not require, strongly prefer, or primarily operate in any language other than required language inside `profile.md`. If the requirements section cannot be found or read closely enough to make that confirmation, mark the job `uncertain` rather than saving it.
+
+Do not treat the absence of an obvious keyword match as a completed language check. The check is complete only after actively inspecting the description and requirements.
 
 ## Review Tracker
 
@@ -66,6 +68,7 @@ Track only:
 - location/work mode if visible
 - status
 - description_read: yes/no
+- language_exclusion_checked_against_requirements: yes/no
 - save_signal_seen_in_description: yes/no
 - hard_exclusion_checked_in_description: yes/no
 
@@ -75,13 +78,13 @@ Do not show the full tracker to the user unless asked.
 
 ## Workflow
 
-1. Open the LinkedIn jobs listing URL if provided; otherwise verify and use the current visible Codex browser page. Make the browser visible.
+1. Open the LinkedIn jobs listing URL and make the browser visible.
 2. Read `job_shortlist/profile.md`.
 3. On each result page, scroll inside the left-side results list (per List Pagination in `linkedin.md`) until new cards stop loading and the bottom of the list, including the numbered pagination row, is reached.
 4. Add each loaded card to the Review Tracker before opening details.
 5. Mark duplicates and obvious card-level skips before opening job details.
 6. For each remaining pending card, click the visible card and wait for the detail panel to load.
-7. Read job detail to apply the Shortlist Decision. Focus on the job description; ignore the "About the company" section.
+7. Read job detail to apply the Shortlist Decision. Focus on the job description; ignore the "About the company" section. Apply the language exclusions from `profile.md` using the actual job description and requirements before considering any save signals. If this check cannot be completed, set `language_exclusion_checked_against_requirements: no`, mark the job `uncertain`, and do not save it.
 8. Save plausible jobs using the Save Button Rules below.
 9. Mark ambiguous jobs as `uncertain` and continue. Do not stop mid-run for fit questions.
 10. When the current page has no pending tracked cards, advance to the next page using List Pagination in `linkedin.md`. Do not stop just because the current page is done.
@@ -127,10 +130,8 @@ Do not:
 - change account settings
 - bypass CAPTCHAs, rate limits, login checks, or access controls
 - use aggressive or high-speed scraping behavior
-- open or evaluate the saved-jobs tracker during shortlisting
+- open or evaluate the saved-jobs tracker
 - score, rank, or unsave jobs
-
-Post-run exception: after producing the shortlist summary, you may ask the user whether they want to continue directly to fit evaluation. If they confirm, use the Saved Jobs Handoff in `linkedin.md` to navigate Jobs -> Job Tracker -> Saved, then proceed with `fit_evaluation_skill.md` from that page. Do not score, rank, or unsave jobs until the eval workflow has begun.
 
 ## Expected Output
 
@@ -143,5 +144,3 @@ Produce a brief end-of-run summary with only:
 - number of jobs skipped
 - uncertain jobs, with one short reason each
 - any stop condition or LinkedIn access issue encountered
-
-End by telling the user the next workflow step exactly: evaluate the saved jobs against the experience bank and remove weak fits. Ask whether they want you to open the Saved jobs tracker now and continue to `eval`. If they say yes, navigate Jobs -> Job Tracker -> Saved using the visible LinkedIn UI, then proceed with `fit_evaluation_skill.md`. If they say no or do not answer, tell them they can start a new Codex session, open the LinkedIn saved jobs / job tracker page in the Codex browser and run `eval`, or run `eval <LinkedIn saved jobs / job tracker URL>`. Do not suggest CV tailoring directly after shortlisting unless the user explicitly asks to skip evaluation.
